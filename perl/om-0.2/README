@@ -1,0 +1,10 @@
+README: 0.2 01-May-2005
+
+Installs OM and OpenInteract on a development server.
+
+To install all:
+# ./fullominstall
+
+To install one phase or a range of phases:
+# ./ominstall.pl -help
+

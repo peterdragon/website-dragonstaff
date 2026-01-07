@@ -1,0 +1,907 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=PowerPoint.Slide>
+<meta name=Generator content="Microsoft PowerPoint 11">
+<link id=Main-File rel=Main-File href="../real_world_xplatform_testing.htm">
+<link rel=Preview href=preview.wmf>
+<meta name=Robots content=NoIndex>
+<script src=script.js></script><script><!--
+
+if( !(IsWin("PPTOtl")||IsWin("PPTNav")||IsWin("PPTOtlNav")) )
+{
+	obj = GetObj("Main-File")
+	parent.location.href=obj.href
+}
+
+var gOtlHiliteClr="#ffffff",gOtlNormalClr="#000000",gOtlActiveClr="#ffff00",gSelected="",gTxtState=false,gChildEntryTable=new Array()
+
+function Load()
+{
+	if( IsWin("PPTOtl" ) ){ LoadOtl(); parent.gOtlLoaded=true; return }
+	if( g_supportsPPTHTML ) {
+		if( IsWin("PPTNav" ) ){ LoadNav("NavObj",UpdNav); parent.gNavLoaded=true; return }
+		if( IsWin("PPTOtlNav" ) ){ LoadNav("OtlNavObj",UpdOtlNav); parent.gOtlNavLoaded=true; return }
+	}
+}
+function Upd(){ if( IsWin("PPTNav") ) LoadNav("NavObj",UpdNav) }
+function LoadNav( oId,UpdFunc )
+{
+	document.ondragstart=CancelDrag
+	document.onselectstart=CancelDrag
+	document.body.style.margin=2
+	UpdFunc()
+	obj=document.all.item(oId)
+	obj.style.display="block"
+	obj.style.visibility="visible"
+	document.bgColor="threedface"
+
+	if( parent.frames["PPTNts"] )
+		notesBtn.style.display = ""
+	if( parent.gHasNarration )
+		nb_voiceBorder.style.display = ""
+}
+function LoadOtl()
+{
+	var otl=GetObj("OtlObj")
+	otl.style.display="block"
+	otl.style.visibility="visible"
+	if( gOtlActiveClr == "" ) gOtlActiveClr=document.linkColor
+	if( gOtlHiliteClr == "" ) gOtlHiliteClr=document.fgColor
+	if( gOtlNormalClr == "" )
+		gOtlNormalClr=document.bgColor
+	else
+		document.bgColor=gOtlNormalClr  
+
+	InitArray()
+
+	if( ObjExists( parent.gCurSld ) ) {
+		ChangeState( parent.gCurSld,gOtlNormalClr,gOtlHiliteClr )
+		gSelected=parent.gCurSld
+	}
+	else gSelected = -1
+
+	UpdOtl()
+}
+function UpdOtl(){ UpdIdx(parent.gCurSld) }
+function UpdIdx( idx )
+{
+	if( gSelected != idx ) {
+		if( gSelected > 0 )
+			ChangeState( gSelected,gOtlHiliteClr,gOtlNormalClr )
+
+		if( ObjExists( idx ) ) {
+			gSelected = idx
+			ChangeState( gSelected,gOtlNormalClr,gOtlHiliteClr )
+		}
+		else gSelected = -1
+	}
+
+	if( gTxtState != parent.gOtlTxtExp ) {
+		state = "block"
+		if( !parent.gOtlTxtExp )
+			state="none"
+
+		for(ii=0; ii<gChildEntryTable.length; ii++) {
+			obj=gChildEntryTable[ii];
+			if( obj.id == null ) continue;
+
+			if( obj.id.indexOf("PPTC") >= 0 )
+				obj.style.display=state;
+		} 
+		gTxtState=parent.gOtlTxtExp
+		if( ObjExists( gSelected ) )
+			ChangeState( gSelected,gOtlNormalClr,gOtlHiliteClr )
+	}
+}
+function InitArray()
+{
+	count=0
+	var list=GetTags(document,"DIV");
+	for(ii=0; ii<list.length; ii++) {
+		obj=list.item(ii)
+		if( obj.id == null ) continue
+
+		if( obj.id.indexOf("PPTC") >= 0 )  
+			gChildEntryTable[count++]=obj
+	}
+}
+function ChangeState( idx,fgColor,bgColor )
+{
+	obj=GetObj("PPTL"+idx)
+	obj.style.color=fgColor
+
+	obj=GetObj("PPTP"+idx)
+	obj.style.backgroundColor=bgColor
+}
+function ChgClr( o,clr ){ if( o.id != "PPTL"+gSelected ) o.style.color=clr }
+function Over( src ){ ChgClr(GetLink(src),gOtlActiveClr) }
+function Out( src ){ ChgClr(GetLink(src),gOtlHiliteClr) }
+function Follow(src){ window.location.href = GetLink(src).href; }
+function ObjExists( ii ) { obj=GetObj("PPTP"+ii ); return( obj ) }
+function GoToSld( href ){ UpdIdx(parent.GetSldNum(href)); parent.GoToSld( href ) }
+function CancelDrag(){ window.event.cancelBubble=true;window.event.returnValue=false}
+function GetLink(src)
+{
+   if(src.tagName=="A") return src
+   else return GetTags(src,"A").item(0)
+}
+
+function UpdNav()
+{
+	txt = "<center>";
+	if( parent.GetHrefObj( parent.gCurSld ).mOrigVis == 1 )
+		txt += "Slide " + parent.GetCurSldNum() + " of " + parent.GetNumSlds()
+	else
+		txt += "Hidden Slide"
+	txt += "</center>";
+	nav_text.innerHTML = txt;
+
+	if( !parent.HasPrevSld() )
+		gBtnArr["nb_prev"].Enabled(0)
+	else
+		gBtnArr["nb_prev"].Enabled(1)
+
+	if( !parent.HasNextSld() )
+		gBtnArr["nb_next"].Enabled(0)
+	else
+		gBtnArr["nb_next"].Enabled(1)
+	gBtnArr["nb_nts"].Enabled(1)
+	gBtnArr["nb_ntsBorder"].SetFlag( parent.gHasNts )
+
+	gBtnArr["nb_sldshw"].Enabled(1)
+	gBtnArr["nb_voice"].Enabled(1)
+}
+
+function ExecBtn()
+{
+	if (event.keyCode == 13)
+	{
+		BtnOnDown();
+		BtnOnUp();
+	}
+}
+function UpdOtlNav()
+{
+	gBtnArr["nb_otl"].SetEnabled();
+
+	if( parent.gOtlOpen )
+		gBtnArr["nb_otlTxt"].Enabled( true );
+	else
+		document.all.item("nb_otlTxtBorder").style.visibility = "hidden";
+}
+
+
+
+
+//--></script>
+<style>
+<!--.PTxt
+	{position:relative;
+	width:100%;
+	margin-top:5px;
+	padding-left:2px;
+	font-weight:bold;}
+.CTxt
+	{position:relative;
+	width:100%;
+	margin-top:5px;}
+a
+	{color:white;
+	text-decoration:none;}
+ul
+	{color:white;
+	margin-bottom:0px;
+	margin-left:20px;}
+.sldNum
+	{margin-top:5px;
+	color:white;}
+.button
+	{position:absolute;
+	width:32px;
+	height:20px;
+	border-style:solid;
+	border-width:1px;
+	border-color:threedface;}
+-->
+</style>
+</head>
+
+<body onload="Load()" style='margin:2px'>
+
+<div id=NavObj onload="Load()" onmouseover="BtnOnOver()"
+onmousedown="BtnOnDown()" onmouseout="BtnOnOut()" onmouseup="BtnOnUp()"
+onkeypress="ExecBtn()" style='display:none;visibility:hidden'>
+<table id="notesBtn" style='display:none;position:relative;width:55px' align=left cellpadding=0
+ cellspacing=0>
+ <td nowrap>
+ <div id="nb_ntsElem" title="Show/Hide
+Notes" align=center style='position:relative;margin-left:5px;margin-right:5px;padding:3px;
+ font-family:Arial;color:buttontext;font-size:9pt; cursor:default'>
+ <img src="notes_flag.gif" id="nb_nts" style='display:none'> &nbsp;Notes</div>
+ <div id="nb_ntsBorder" title ="Show/Hide
+Notes" onfocus="BtnOnOver()" onblur="BtnOnOut()" TABINDEX=1 style='position:absolute;top:0%;left:0%;width:100%;height:20px'>
+
+ </div>
+ </td>
+</table>
+
+
+<table style='position:relative;width:70px' align=right cellpadding=0 cellspacing=0>
+ <td nowrap>
+ <div id="nb_sldshwText" title="Full Screen Slide Show" align=center style='position:relative;margin-left:20px;padding:3px;
+ font-family:Arial;color:buttontext;font-size:9pt;cursor:default'>Slide
+Show</div>
+ <div id="nb_sldshwBorder" title="Full Screen Slide Show" onfocus="BtnOnOver()" onblur="BtnOnOut()" TABINDEX=5 style='position:absolute;top:0%;left:0%;width:100%;height:20px'>
+ <div style='position:absolute;clip:rect(0px, 18px, 18px, 0px)'><img
+ src="buttons.gif" id="nb_sldshw" style='position:relative;left:-254px'></div>
+ </div>
+ </td>
+ <td>
+ <div id="nb_voiceBorder" style='display:none;position:absolute;top:0;left:-40px;
+ width:20px;height:20px' onfocus="BtnOnOver()" onblur="BtnOnOut()" TABINDEX=4 class=button>
+ <div style='position:absolute;clip:rect(0px, 18px, 18px, 0px)'><img
+ src="buttons.gif" id="nb_voice" title="Pause/Play Narration" style='position:
+ relative;left:-290px'></div>
+ </div>
+ </td>
+</table>
+
+<table style='position:relative' align=center cellpadding=0 cellspacing=0>
+ <td nowrap>
+ <div id="nb_prevBorder" onfocus="BtnOnOver()" onblur="BtnOnOut()" TABINDEX=2 class=button style='left:-30px'>
+ <div style='position:absolute;clip:rect(0px, 30px, 18px, 0px)'><img
+ src="buttons.gif" id="nb_prev" title="Previous Slide" style='position:relative;
+ left:0px'></div>
+ </div>
+ <span id="nav_text" style='position:relative;top:3px;width:100px;font-family:
+ Arial;color:buttontext;font-size:9pt'></span>
+ <div id="nb_nextBorder" onfocus="BtnOnOver()" onblur="BtnOnOut()" TABINDEX=3 class=button>
+ <div style='position:absolute;clip:rect(0px, 30px, 18px, 0px)'><img
+ src="buttons.gif" id="nb_next" title="Next Slide" style='position:relative;
+ left:-90px'></div>
+ </div>
+ </td>
+</table>
+</div>
+
+<div id=OtlNavObj onload="Load()" onmouseover="BtnOnOver()"
+onmousedown="BtnOnDown()" onmouseout="BtnOnOut()" onmouseup="BtnOnUp()"
+onkeypress="ExecBtn()" style='display:none;visibility:hidden'>
+
+<table style='position:relative;width:70px' align=left cellpadding=0 cellspacing=0>
+ <td nowrap><div title="Show/Hide
+Outline" id="nb_otl" onfocus="BtnOnOver()" onblur="BtnOnOut()" TABINDEX=11
+ style='position:absolute;top:0%;left:0%;width:100%;height:100%;cursor:default'>
+ <div id="nb_otlElem" align=center style='position:relative;padding:3px;font-family:Arial;
+ color:buttontext;font-size:9pt'>Outline</div></div>
+ </td>
+</table>
+
+<table style='position:relative' align=center cellpadding=0 cellspacing=0>
+ <td>
+ <div style='position:absolute;left:-18px;width:24px;height:20px;border-style:
+ solid;border-width:1px;border-color:threedface' onfocus="BtnOnOver()" onblur="BtnOnOut()" TABINDEX=12 id="nb_otlTxtBorder">
+ <div style='position:absolute;clip:rect(0px, 22px, 18px, 0px)'><img
+ src=buttons.gif id="nb_otlTxt" title="Expand/Collapse Outline"
+ style='position:relative;left:-157px'></div>
+ </div>
+ </td>
+</table>
+
+</div>
+
+<div id=OtlObj style='display:none;visibility:hidden;'>
+
+
+<table width="100%" style='font-family:Arial;font-size:9pt'>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>1</font></div>
+  </td>
+  <td width="100%">
+  <div id=PPTP1 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0001.htm');" id=PPTL1>Real Life Cross-Platform
+  Testing</a></font></div>
+  <div id=PPTC1 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Peter Edwards</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>2</font></div>
+  </td>
+  <td>
+  <div id=PPTP2 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0003.htm');" id=PPTL2>Contents</a></font></div>
+  <div id=PPTC2 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Background aka &quot;Real Life&quot;</li>
+   <li>Cross-Platform</li>
+   <li>Testing</li>
+   <br>
+   <br>
+   <li>Add Windows Testing Under Unix</li>
+   <li>Test::MockObject</li>
+   <li>Test::MockModule</li>
+   <li>Running Unix unit tests under Windows</li>
+   <li>Future Plans For Testing</li>
+   <li>Summary and Links</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>3</font></div>
+  </td>
+  <td>
+  <div id=PPTP3 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0005.htm');" id=PPTL3>Background aka
+  &quot;Real Life&quot;</a></font></div>
+  <div id=PPTC3 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Content Management System used at BBC to enter XML documents<br>
+              that are later transformed to make public websites</li>
+   <li>Client-side</li>
+   <ul>
+    <li>GUI using WxPerl (WxWidgets)</li>
+    <li>WYSIWYG editing</li>
+    <li>Talks SOAP over HTTP to server</li>
+    <li>Runs under ActiveState Perl</li>
+   </ul>
+   <li>Server-side</li>
+   <ul>
+    <li>Handles SOAP requests</li>
+    <li>Stores document blobs in filesystem</li>
+    <li>Stores indexes, metadata in Oracle database</li>
+    <li>Runs under Solaris Perl</li>
+   </ul>
+   <li>Usage</li>
+   <ul>
+    <li>100s of users</li>
+    <li>Time critical publishing : failure during release is not an option</li>
+   </ul>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>4</font></div>
+  </td>
+  <td>
+  <div id=PPTP4 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0006.htm');" id=PPTL4>Cross-Platform</a></font></div>
+  <div id=PPTC4 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>CMS code running on Windows and Solaris</li>
+   <br>
+   <br>
+   <li>Solaris perl 5.8.8</li>
+   <ul>
+    <li><span style='mso-spacerun:yes'> </span>$ perl -V</li>
+    <li><span style='mso-spacerun:yes'> </span>Summary of my perl5 (revision 5
+        version 8 subversion 8) configuration:</li>
+    <li><span style='mso-spacerun:yes'>   </span>Platform:</li>
+    <li><span style='mso-spacerun:yes'>     </span>osname=solaris, osvers=2.10,
+        archname=sun4-solaris</li>
+   </ul>
+   <br>
+   <li>Windows ASPerl 5.8</li>
+   <ul>
+    <li>C:\WINNT&gt;perl –V</li>
+    <li>Summary of my perl5 (revision 5 version 8 subversion 6) configuration:</li>
+    <li><span style='mso-spacerun:yes'>  </span>Platform:</li>
+    <li><span style='mso-spacerun:yes'>    </span>osname=MSWin32, osvers=4.0,
+        archname=MSWin32-x86-multi-thread</li>
+   </ul>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>5</font></div>
+  </td>
+  <td>
+  <div id=PPTP5 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0007.htm');" id=PPTL5>Testing</a></font></div>
+  <div id=PPTC5 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Unit tests for dev</li>
+   <li>Automated overnight smoke testing of unit tests</li>
+   <li>Dev / Staging Test / Live environments</li>
+   <li>Manual release test on staging test area using Windows app</li>
+   <li>Problems</li>
+   <li>Lots of tests for server side code, very few for client side because
+       difficult to run 'use Wx' code on Unix in batch</li>
+   <li>Existing tests run on Unix, fail on Windows</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>6</font></div>
+  </td>
+  <td>
+  <div id=PPTP6 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0011.htm');" id=PPTL6>Add Windows Testing
+  Under Unix</a></font></div>
+  <div id=PPTC6 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Need to write lots of client-side tests for</li>
+   <li>GUI</li>
+   <ul>
+    <li><span style='mso-spacerun:yes'>    </span>WxPerl -&gt; Gtk+ under
+        Solaris</li>
+    <ul>
+     <li>‘Use Wx’ was failing because no X display</li>
+     <li>Problems with font sizing and window alignment</li>
+     <li>Windows-specific components, e.g. ActiveX Altova editor</li>
+    </ul>
+   </ul>
+   <li>Installation</li>
+   <ul>
+    <ul>
+     <li>Shortcuts, registry Win32::OLE, unzipping archives to Windows Apps dir
+         etc.</li>
+    </ul>
+   </ul>
+   <li>Solutions</li>
+   <li>Use Xvfb</li>
+   <ul>
+    <ul>
+     <li>$ alias runxvfb='Xvfb :10 -dev vfb screen 0 1152x900x8 &gt; /dev/null
+         2&gt;&amp;1 &amp;'</li>
+     <li>Lets you check code compile and call many routines</li>
+     <li>But how do you test UI rendered properly - interpreting the virtual
+         screen bitmaps is too hard!</li>
+    </ul>
+   </ul>
+   <li>Sandboxing and mocking</li>
+   <ul>
+    <ul>
+     <li>Mock required Win32 functions</li>
+     <li>Make them do file I/O to a sandbox area</li>
+     <li>Test::MockObject - Perl extension for emulating troublesome interfaces</li>
+     <li>Test::MockModule - Override subroutines in a module for unit testing</li>
+    </ul>
+   </ul>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>7</font></div>
+  </td>
+  <td>
+  <div id=PPTP7 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0012.htm');" id=PPTL7>Test::MockObject 1</a></font></div>
+  <div id=PPTC7 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Helpers</li>
+   <br>
+   <br>
+   <li><span style='mso-spacerun:yes'>    </span>sub make_mock_obj_in_class {</li>
+   <li><span style='mso-spacerun:yes'>        </span>my $class = shift;</li>
+   <li><span style='mso-spacerun:yes'>        </span>my $obj =
+       Test::MockObject-&gt;new;</li>
+   <li><span style='mso-spacerun:yes'>       
+       </span>$obj-&gt;fake_module($class);</li>
+   <li><span style='mso-spacerun:yes'>        </span>$obj-&gt;fake_new($class);</li>
+   <li><span style='mso-spacerun:yes'>        </span>return $obj;</li>
+   <li><span style='mso-spacerun:yes'>    </span>}</li>
+   <br>
+   <br>
+   <li><span style='mso-spacerun:yes'>    </span>sub dump_mock_calls {</li>
+   <li><span style='mso-spacerun:yes'>        </span>my $mockobj = shift;</li>
+   <li><span style='mso-spacerun:yes'>        </span>my $i = 1;</li>
+   <li><span style='mso-spacerun:yes'>        </span>while ( my $name =
+       $mockobj-&gt;call_pos($i) ) {</li>
+   <li><span style='mso-spacerun:yes'>            </span>diag &quot; call $i:
+       $name&quot;;</li>
+   <li><span style='mso-spacerun:yes'>            </span>my @args =
+       $mockobj-&gt;call_args($i);</li>
+   <li><span style='mso-spacerun:yes'>            </span>for (0 .. $#args) {</li>
+   <li><span style='mso-spacerun:yes'>                </span>diag '<span
+       style='mso-spacerun:yes'>  </span>arg '.($_ +1).': ';</li>
+   <li><span style='mso-spacerun:yes'>                </span>diag
+       Dumper($args[$_]);</li>
+   <li><span style='mso-spacerun:yes'>            </span>}</li>
+   <li><span style='mso-spacerun:yes'>            </span>$i++;</li>
+   <li><span style='mso-spacerun:yes'>        </span>}</li>
+   <li><span style='mso-spacerun:yes'>    </span>}</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>8</font></div>
+  </td>
+  <td>
+  <div id=PPTP8 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0013.htm');" id=PPTL8>Test::MockObject 2</a></font></div>
+  <div id=PPTC8 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Mocking</li>
+   <br>
+   <br>
+   <li><span style='mso-spacerun:yes'>    </span>my $wx =
+       make_mock_obj_in_class( 'Wx' );</li>
+   <li></li>
+   <li><span style='mso-spacerun:yes'>    </span>my $mock_WxPerlSplashProgress
+       = make_mock_obj_in_class( 'Wx::Perl::SplashProgress' );</li>
+   <li><span style='mso-spacerun:yes'>   
+       </span>$mock_WxPerlSplashProgress-&gt;set_true(qw( SetLabelColour
+       SetIcon Show SetValue Update Destroy ));</li>
+   <li><span style='mso-spacerun:yes'>   
+       </span>$mock_WxPerlSplashProgress-&gt;mock( SetLabel =&gt; sub { diag '
+       SetLabel: '.$_[1] } );</li>
+   <br>
+   <br>
+   <li><span style='mso-spacerun:yes'>    </span>$mock_Win32OLE =
+       make_mock_obj_in_class( 'Win32::OLE' );</li>
+   <li><span style='mso-spacerun:yes'>    </span>$mock_Win32OLE-&gt;mock(
+       'SpecialFolders', sub { shift } );</li>
+   <li><span style='mso-spacerun:yes'>    </span>$mock_Win32OLE-&gt;mock(
+       'AppData', sub { return catdir(qw(data win32), 'Application Data') } );</li>
+   <li><span style='mso-spacerun:yes'>    </span>$mock_Win32OLE-&gt;mock(
+       'StartMenu', sub { catdir(qw(data win32 startmenu)) } );</li>
+   <li><span style='mso-spacerun:yes'>    </span>$mock_Win32OLE-&gt;mock(
+       'Desktop', sub { catdir(qw(data win32 desktop)) } );</li>
+   <li></li>
+   <li><span style='mso-spacerun:yes'>    </span>$mock_Win32Shortcut =
+       make_mock_obj_in_class( 'Win32::Shortcut' );</li>
+   <li><span style='mso-spacerun:yes'>    </span>$mock_Win32Shortcut-&gt;mock(
+       'Load', sub {</li>
+   <li><span style='mso-spacerun:yes'>        </span>my ($self, $filename) =
+       @_;</li>
+   <li><span style='mso-spacerun:yes'>        </span>$self-&gt;{content} =
+       read_file($filename);</li>
+   <li><span style='mso-spacerun:yes'>        </span>return 1;</li>
+   <li><span style='mso-spacerun:yes'>        </span>} );</li>
+   <li><span style='mso-spacerun:yes'>    </span>$mock_Win32Shortcut-&gt;mock(
+       'Path', sub {</li>
+   <li><span style='mso-spacerun:yes'>        </span>my ($self, $path) = @_;</li>
+   <li><span style='mso-spacerun:yes'>        </span>$self-&gt;{content} =
+       $path;</li>
+   <li><span style='mso-spacerun:yes'>        </span>} );</li>
+   <li><span style='mso-spacerun:yes'>    </span>$mock_Win32Shortcut-&gt;mock(
+       'Arguments', sub {</li>
+   <li><span style='mso-spacerun:yes'>        </span>my ($self, $args) = @_;</li>
+   <li><span style='mso-spacerun:yes'>        </span>$self-&gt;{content} .= '
+       '.$args . &quot;\r\n&quot;;</li>
+   <li><span style='mso-spacerun:yes'>        </span>} );</li>
+   <li><span style='mso-spacerun:yes'>    </span>$mock_Win32Shortcut-&gt;mock(
+       'Save', sub {</li>
+   <li><span style='mso-spacerun:yes'>        </span>my ($self, $filename) =
+       @_;</li>
+   <li><span style='mso-spacerun:yes'>        </span>write_file($filename,
+       $self-&gt;{content} . &quot;writetime &quot;. gmtime() .
+       &quot;\r\n&quot;);</li>
+   <li><span style='mso-spacerun:yes'>        </span>return 1;</li>
+   <li><span style='mso-spacerun:yes'>        </span>} );</li>
+   <li><span style='mso-spacerun:yes'>   
+       </span>$mock_Win32Shortcut-&gt;set_true(qw( ShowCmd Description
+       IconLocation Close ));</li>
+   <li><span style='mso-spacerun:yes'>    </span>{ no strict 'refs';
+       *{'Win32::Shortcut::SW_SHOWMINNOACTIVE'} = sub {}; }</li>
+   <br>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>9</font></div>
+  </td>
+  <td>
+  <div id=PPTP9 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0026.htm');" id=PPTL9>Test::MockObject 3</a></font></div>
+  <div id=PPTC9 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Testing</li>
+   <li>$mock_WxPerlSplashProgress-&gt;clear();</li>
+   <li>is( $i-&gt;_install_loginscript, 1, '$i-&gt;_install_loginscript' );</li>
+   <li>dump_mock_calls($mock_IFLDesktopLoginScript);</li>
+   <li>$mock_IFLDesktopLoginScript-&gt;called_pos_ok( 3, 'install', 'called
+       IFL::Desktop::LoginScript-&gt;install' );</li>
+   <li>dump_mock_calls($mock_WxPerlSplashProgress);</li>
+   <li>$mock_WxPerlSplashProgress-&gt;called_pos_ok( 4, 'SetLabel', 'called
+       Wx::Perl::SplashProgress-&gt;SetLabel' );</li>
+   <li>$mock_WxPerlSplashProgress-&gt;called_args_pos_is( 4, 2, 'Checking login
+       script' );</li>
+   <li>$mock_WxPerlSplashProgress-&gt;called_pos_ok( 7, 'SetLabel', 'called
+       Wx::Perl::SplashProgress-&gt;SetLabel' );</li>
+   <li>$mock_WxPerlSplashProgress-&gt;called_args_pos_is( 7, 2, 'Installing
+       login script...' );</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>10</font></div>
+  </td>
+  <td>
+  <div id=PPTP10 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0014.htm');" id=PPTL10>Test::MockModule 1</a></font></div>
+  <div id=PPTC10 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Helper</li>
+   <br>
+   <br>
+   <li>sub mock_module {</li>
+   <li><span style='mso-spacerun:yes'>        </span>my
+       ($module,$options,@functions) = @_;</li>
+   <li></li>
+   <li><span style='mso-spacerun:yes'>        </span>my $no_auto =
+       defined($options-&gt;{no_auto}) ? $options-&gt;{no_auto} : 1;</li>
+   <li><span style='mso-spacerun:yes'>        </span>my $create_new =
+       defined($options-&gt;{create_new}) ? $options-&gt;{create_new} : 1;</li>
+   <li><span style='mso-spacerun:yes'>        </span>my $testmockmodule = new
+       Test::MockModule($module, no_auto =&gt; $no_auto);</li>
+   <li></li>
+   <li><span style='mso-spacerun:yes'>        </span>my $object;</li>
+   <li><span style='mso-spacerun:yes'>        </span>if ($create_new) {</li>
+   <li><span style='mso-spacerun:yes'>            </span>$object = bless {},
+       $module;</li>
+   <li><span style='mso-spacerun:yes'>           
+       </span>$testmockmodule-&gt;mock('new',sub {
+       $logger-&gt;log($module,'new',@_); return $object });</li>
+   <li><span style='mso-spacerun:yes'>        </span>}</li>
+   <li></li>
+   <li><span style='mso-spacerun:yes'>        </span>for my $function
+       (@functions) {</li>
+   <li><span style='mso-spacerun:yes'>           
+       </span>$testmockmodule-&gt;mock($function,sub {
+       $logger-&gt;log($module,$function,@_) });</li>
+   <li><span style='mso-spacerun:yes'>        </span>}</li>
+   <li></li>
+   <li><span style='mso-spacerun:yes'>        </span>no strict 'refs';</li>
+   <li><span style='mso-spacerun:yes'>        </span>push @{$module .
+       &quot;::ISA&quot;},'Exporter';</li>
+   <li></li>
+   <li><span style='mso-spacerun:yes'>        </span>my $module_path = $module;</li>
+   <li><span style='mso-spacerun:yes'>        </span>$module_path =~
+       s{::}{/}xmsg;</li>
+   <li><span style='mso-spacerun:yes'>        </span>$module_path .= '.pm';</li>
+   <li><span style='mso-spacerun:yes'>        </span>$INC{$module_path} =
+       &quot;1 (Inserted by mock_module())&quot;;</li>
+   <li></li>
+   <li><span style='mso-spacerun:yes'>        </span>return $testmockmodule,
+       $object;</li>
+   <li>}</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>11</font></div>
+  </td>
+  <td>
+  <div id=PPTP11 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0015.htm');" id=PPTL11>Test::MockModule 2</a></font></div>
+  <div id=PPTC11 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Mocking</li>
+   <ul>
+    <li>my ($mock_wx_activex_ie, $mock_wx_activex_ie_object)</li>
+    <li><span style='mso-spacerun:yes'>        </span>=
+        mock_module('Wx::ActiveX::IE',{});</li>
+    <li>my ($mock_wx_activex_event, $mock_wx_activex_event_object)</li>
+    <li><span style='mso-spacerun:yes'>        </span>=
+        mock_module('Wx::ActiveX::Event',{},@Wx::Event::EXPORT_OK);</li>
+    <li>my ($mock_wx_panel,$mock_wx_panel_object)</li>
+    <li><span style='mso-spacerun:yes'>        </span>=
+        mock_module('Wx::Panel',{}, qw( SetSizer ));</li>
+    <li>my ($mock_wx_boxsizer,$mock_wx_boxsizer_object)</li>
+    <li><span style='mso-spacerun:yes'>        </span>=
+        mock_module('Wx::BoxSizer',{}, qw( Add ));</li>
+   </ul>
+   <br>
+   <li>Tests - use your objects as normal… then check call sequence</li>
+   <ul>
+    <li>my @mf_calls = $logger-&gt;filter({'FLIPClient::UI::MicroForms' =&gt;
+        []});</li>
+    <li>my $call = shift(@mf_calls);</li>
+    <li>is($call-&gt;{function},'set_template','position_change (' .
+        $test-&gt;{name} . ') calls set_template');</li>
+    <li>ok($call-&gt;{args}-&gt;[1] =~ $test-&gt;{template},'position_change ('
+        . $test-&gt;{name} . ') sets template');</li>
+    <br>
+    <br>
+    <li>$call = shift(@mf_calls);</li>
+    <li>is($call-&gt;{function},'set_data','position_change (' .
+        $test-&gt;{name} . ') calls set_data');</li>
+    <li>is_deeply($call-&gt;{args}-&gt;[1],$test-&gt;{data},'position_change ('
+        . $test-&gt;{name} . ') sets data');</li>
+    <br>
+    <br>
+   </ul>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>12</font></div>
+  </td>
+  <td>
+  <div id=PPTP12 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0016.htm');" id=PPTL12>Running Unix unit tests
+  under Windows 1</a></font></div>
+  <div id=PPTC12 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Some libraries shared between Unix and Windows;<br>
+              not being tested properly client-side</li>
+   <li>Perl Portability</li>
+   <ul>
+    <li>&quot;perldoc perlport“ http://perldoc.perl.org/5.8.8/perlport.html<br>
+                &quot;When the code will run on only two or three operating
+        systems, you may need to consider only the differences of those
+        particular systems. The important thing is to decide where the code
+        will run and to be deliberate in your decision.“</li>
+    <li>Only worrying about Windows and Unix; OpenVMS support is hard</li>
+    <ul>
+     <li>binmode and chomp - binmode saves headaches on Windows like EOF ^Z;
+         watch out for CR-LF</li>
+     <li>use File::Spec::Functions rather than Unix paths</li>
+     <ul>
+      <li>YES :<span style='mso-spacerun:yes'>  </span>my $path = rel2abs(
+          catdir(qw( data local cache file.txt ));</li>
+      <li>NO<span style='mso-spacerun:yes'>  </span>:<span
+          style='mso-spacerun:yes'>  </span>my $path =
+          './data/local/cache/file.txt';</li>
+     </ul>
+    </ul>
+   </ul>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>13</font></div>
+  </td>
+  <td>
+  <div id=PPTP13 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0027.htm');" id=PPTL13>Running Unix unit tests
+  under Windows 2</a></font></div>
+  <div id=PPTC13 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Generic configuration interface with platform-specific subclasses</li>
+   <ul>
+    <ul>
+     <li>System.pm</li>
+     <li><span style='mso-spacerun:yes'>        </span>|-- System/Win32.pm</li>
+     <li><span style='mso-spacerun:yes'>        </span>|-- System/Unix.pm</li>
+     <li>using File::Spec::Functions for paths</li>
+    </ul>
+   </ul>
+   <li>Change tests from path strings to regexes using a quote path separator</li>
+   <ul>
+    <li><span style='mso-spacerun:yes'>          </span>my $script =
+        $i-&gt;startup('remote');</li>
+    <li>NO<span style='mso-spacerun:yes'>  </span>: is( $script,
+        'scripts/FLIP_real.PL', '$i-&gt;startup(&quot;remote&quot;)<span
+        style='mso-spacerun:yes'>  </span>script’</li>
+    <li>YES : $ps = ($^O eq 'MSWin32') ? &quot;\\&quot; : '/';</li>
+    <li><span style='mso-spacerun:yes'>          </span>$qps = quotemeta $ps;</li>
+    <li><span style='mso-spacerun:yes'>          </span>like( $script, qr{
+        scripts [$qps] FLIP_real.pl \z }xms,
+        '$i-&gt;startup(&quot;remote&quot;)<span style='mso-spacerun:yes'> 
+        </span>script' );</li>
+    <li>Note PBP style regex</li>
+   </ul>
+   <li>Actually run the tests on multiple platforms</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>14</font></div>
+  </td>
+  <td>
+  <div id=PPTP14 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0028.htm');" id=PPTL14>Future Plans For
+  Testing</a></font></div>
+  <div id=PPTC14 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Automate application release test under Windows</li>
+   <ul>
+    <li>Win32::GuiTest (or pay for WinRunner)</li>
+   </ul>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>15</font></div>
+  </td>
+  <td>
+  <div id=PPTP15 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0025.htm');" id=PPTL15>Summary and Links</a></font></div>
+  <div id=PPTC15 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Summary</li>
+   <ul>
+    <li>&quot;perldoc perlport“</li>
+    <li>Write cross-platform tests from the outset; convert old ones</li>
+    <li>Mock platform-specific GUI or system library calls</li>
+    <li>Automate tests (life is short) and get as much coverage as possible</li>
+   </ul>
+   <li>Links</li>
+   <ul>
+    <li>WxPerl http://wxperl.sourceforge.net/</li>
+    <li>WxWidgets http://docs.wxwidgets.org/trunk/</li>
+    <li>&quot;Perl Testing: A Developer's Notebook&quot; Ian Langworth &amp;
+        chromatic, O'Reilly Media, Inc., 2005 http://preview.tinyurl.com/5k6wnc</li>
+   </ul>
+   <br>
+   <li>Thank you. Any Questions?</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+</table>
+
+
+
+</div>
+
+<div style='display:none'><a href=master05.htm></a><a href=master05.xml></a><a
+href=preview.wmf></a><a href=master06.htm></a><a href=master06.xml></a><a
+href=master02.htm></a><a href=pres.xml></a><a href=slide0001.htm></a><a
+href="master06_background.gif"></a><a href="master06_image001.gif"></a><a
+href="slide0001_image002.jpg"></a><a href="slide0001_image003.jpg"></a><a
+href=slide0003.htm></a><a href="master05_background.gif"></a><a
+href="master05_image004.gif"></a><a href=slide0005.htm></a><a
+href="slide0005_image005.jpg"></a><a href="slide0005_image006.jpg"></a><a
+href="slide0005_image007.jpg"></a><a href="slide0005_image008.jpg"></a><a
+href="slide0005_image009.jpg"></a><a href="slide0005_image010.gif"></a><a
+href="slide0005_image011.gif"></a><a href="slide0005_image012.jpg"></a><a
+href="slide0005_image013.jpg"></a><a href=slide0006.htm></a><a
+href=slide0007.htm></a><a href=slide0011.htm></a><a href=slide0012.htm></a><a
+href="slide0012_image014.gif"></a><a href=slide0013.htm></a><a
+href="slide0013_image015.gif"></a><a href=slide0026.htm></a><a
+href="slide0026_image016.gif"></a><a href=slide0014.htm></a><a
+href="slide0014_image017.gif"></a><a href=slide0015.htm></a><a
+href="slide0015_image018.gif"></a><a href=slide0016.htm></a><a
+href=slide0027.htm></a><a href=slide0028.htm></a><a href=slide0025.htm></a><a
+href=master01.htm></a><a href="master05_stylesheet.css"></a><a href=script.js></a><a
+href="../real_world_xplatform_testing.htm"></a><a href=fullscreen.htm></a><a
+href=buttons.gif></a><a href=frame.htm></a><a href=outline.htm></a></div>
+
+</body>
+
+</html>

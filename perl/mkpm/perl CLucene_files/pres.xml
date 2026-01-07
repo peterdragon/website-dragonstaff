@@ -1,0 +1,104 @@
+<xml xmlns:v="urn:schemas-microsoft-com:vml"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:p="urn:schemas-microsoft-com:office:powerpoint"
+ xmlns:oa="urn:schemas-microsoft-com:office:activation">
+ <p:presentation sizeof="screen" gridspacingx="23224" gridspacingy="23224">
+  <p:master id="5" slidesn="1C68BA5,FB511EAA" type="main" href="master05.htm"
+   xmlhref="master05.xml" template="Training" layout="title_body"
+   slots="title,body,dateTime,footer,slideNumber">
+   <p:schemes>
+    <p:colorscheme
+     colors="#0000ff,#ffffff,#000000,#ffcc66,#00ccff,#ffff00,#ff0033,#3366ff"/>
+    <p:colorscheme
+     colors="#ffffff,#000000,#ccecff,#000000,#6699ff,#00cccc,#cc99ff,#66ccff"/>
+    <p:colorscheme
+     colors="#ffffff,#000000,#ffffff,#000000,#cbcbcb,#969696,#5f5f5f,#eaeaea"/>
+    <p:colorscheme
+     colors="#008080,#ffffff,#000000,#ffcc66,#0099cc,#ffff00,#6600cc,#009999"/>
+    <p:colorscheme
+     colors="#993300,#ffffff,#000000,#ffcc66,#ff6633,#ffff00,#cc0000,#cc6600"/>
+   </p:schemes>
+  </p:master>
+  <p:master id="6" slidesn="1C68BA5,FB511EAB" type="title" href="master06.htm"
+   xmlhref="master06.xml" layout="title_subtitle"
+   slots="centerTitle,subTitle,dateTime,footer,slideNumber"/>
+  <p:master id="1" slidesn="1BFEC56,5A854810" type="notes" href="master01.htm"
+   layout="notes" slots="header,dateTime,slideImage,body,footer,slideNumber"/>
+  <p:master id="2" slidesn="1BFEC56,5A885550" type="handout" href="master02.htm"
+   layout="handout" slots="header,dateTime,footer,slideNumber"/>
+  <p:slide id="1" slidesn="1C68BA5,FB511EA1" href="slide0001.htm"
+   masterhref="master06.htm" layout="title_subtitle"
+   slots="centerTitle,subTitle" overridemasteranimations="t"/>
+  <p:slide id="2" slidesn="1C68BA5,FB511EA2" href="slide0002.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="10" slidesn="1C68BA9,A1006790" href="slide0010.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="3" slidesn="1C68BA5,FB511EA3" href="slide0003.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="5" slidesn="1C68BA5,FB511EA5" href="slide0005.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="6" slidesn="1C68BA5,FB511EA6" href="slide0006.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="7" slidesn="1C68BA5,FB511EA7" href="slide0007.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="11" slidesn="1C68BAE,11F30F30" href="slide0011.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="12" slidesn="1C68BAE,189ADB10" href="slide0012.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="13" slidesn="1C68BAE,1D1C92A0" href="slide0013.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="14" slidesn="1C68BAE,24697820" href="slide0014.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="15" slidesn="1C68BAE,3406F780" href="slide0015.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="16" slidesn="1C68BAE,3894E410" href="slide0016.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="25" slidesn="1C68BDD,8BF4FE40" href="slide0025.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="17" slidesn="1C68BAE,3BADE3E0" href="slide0017.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="18" slidesn="1C68BB1,9FEE61B0" href="slide0018.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="19" slidesn="1C68BB1,A3EB0AC0" href="slide0019.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="20" slidesn="1C68BB1,A9211E30" href="slide0020.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="26" slidesn="1C68BE1,A9F29E30" href="slide0026.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="27" slidesn="1C68BE2,F2977600" href="slide0027.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="21" slidesn="1C68BB1,B662FA50" href="slide0021.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="22" slidesn="1C68BB2,AA9F3D40" href="slide0022.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="28" slidesn="1C68BE5,47C9D8A0" href="slide0028.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="29" slidesn="1C68BE5,53EF9660" href="slide0029.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="23" slidesn="1C68BB2,B19FB070" href="slide0023.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="30" slidesn="1C68BE6,B7EF9AB0" href="slide0030.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="24" slidesn="1C68BB2,B7F67620" href="slide0024.htm"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="9" slidesn="1C68BA5,FB511EA9" href="slide0009.htm"
+   layout="title_body" slots="title,body"/>
+  <p:viewstate type="slideView" slidehref="slide0009.htm" manualadjustleft="t"
+   manualadjusttop="t"/>
+  <p:slideshowsettings pencolor="schemeText"/>
+  <p:font name="Times New Roman" charset="0" type="6" family="18"/>
+  <p:font name="Arial" charset="0" type="4"/>
+  <p:font name="Wingdings" charset="2" type="6" family="2"/>
+  <p:font name="Lucida Sans Typewriter" charset="0" type="6" family="49"/>
+  <p:headersfooters slidenumber="t"
+   footerstr="Perl XS and SWIG interface to CLucene C++ text search engine"
+   formatid="0" nouserdate="t" noheader="t" todaydate="t"/>
+  <p:headersfooters notes="t" slidenumber="t" formatid="0"/>
+  <p:pptdocumentsettings framecolors="WhiteTextOnBlack" hideslideanimation="t"
+   browsersupport="v4"/>
+ </p:presentation>
+ <o:shapedefaults v:ext="edit" spidmax="48130">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short" color2="none [0]" weight="1pt"/>
+  <o:colormru v:ext="edit" colors="#0cf,#fc0,#ff6"/>
+ </o:shapedefaults></xml>

@@ -1,0 +1,36 @@
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Temporary files
+*.txt
+*.md5
+*.code-workspace
+
+# Exclude large archives and binaries that aren't needed for the website
+*.zip
+*.rpm
+*.tar.gz
+*.tgz
+*.sql
+
+# Keep the om-0.2 directory structure but exclude large files
+perl/om-0.2/aptrpm/*.rpm
+perl/om-0.2/rpm/*.rpm
+perl/om-0.2/src/*.tar.gz
+perl/om-0.2/src/*.tgz
+perl/om-0.2/src/*.sql
+perl/om-0.2/cpan/*.tar.gz
+
+# Exclude __MACOSX directories
+**/__MACOSX/
+**/.DS_Store
+
+# Keep important files
+!perl/om-0.2/README*
+!perl/om-0.2/MANIFEST
+!perl/om-0.2/ominstall.pl
+

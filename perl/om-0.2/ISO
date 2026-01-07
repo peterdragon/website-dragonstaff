@@ -1,0 +1,7 @@
+To create ISO:
+mkisofs -U -R -J -V "OM" -o ominstall-0.2.iso om
+
+To test ISO by mounting below /mnt/iso:
+mount ominstall-0.2.iso /mnt/iso -t iso9660 -o loop=/dev/loop0,blocksize=1024
+ or on RHEL4
+mount ominstall-0.2.iso /mnt/iso -o loop

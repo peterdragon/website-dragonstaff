@@ -1,0 +1,2 @@
+#!/bin/sh
+./ominstall.pl -st root -e start | tee /tmp/om.log 2>&1

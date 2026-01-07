@@ -1,0 +1,1136 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=PowerPoint.Slide>
+<meta name=Generator content="Microsoft PowerPoint 11">
+<link id=Main-File rel=Main-File href="../rbac.htm">
+<link rel=Preview href=preview.wmf>
+<meta name=Robots content=NoIndex>
+<script src=script.js></script><script><!--
+
+if( !(IsWin("PPTOtl")||IsWin("PPTNav")||IsWin("PPTOtlNav")) )
+{
+	obj = GetObj("Main-File")
+	parent.location.href=obj.href
+}
+
+var gOtlHiliteClr="#ffffff",gOtlNormalClr="#000000",gOtlActiveClr="#ffff00",gSelected="",gTxtState=false,gChildEntryTable=new Array()
+
+function Load()
+{
+	if( IsWin("PPTOtl" ) ){ LoadOtl(); parent.gOtlLoaded=true; return }
+	if( g_supportsPPTHTML ) {
+		if( IsWin("PPTNav" ) ){ LoadNav("NavObj",UpdNav); parent.gNavLoaded=true; return }
+		if( IsWin("PPTOtlNav" ) ){ LoadNav("OtlNavObj",UpdOtlNav); parent.gOtlNavLoaded=true; return }
+	}
+}
+function Upd(){ if( IsWin("PPTNav") ) LoadNav("NavObj",UpdNav) }
+function LoadNav( oId,UpdFunc )
+{
+	document.ondragstart=CancelDrag
+	document.onselectstart=CancelDrag
+	document.body.style.margin=2
+	UpdFunc()
+	obj=document.all.item(oId)
+	obj.style.display="block"
+	obj.style.visibility="visible"
+	document.bgColor="threedface"
+
+	if( parent.frames["PPTNts"] )
+		notesBtn.style.display = ""
+	if( parent.gHasNarration )
+		nb_voiceBorder.style.display = ""
+}
+function LoadOtl()
+{
+	var otl=GetObj("OtlObj")
+	otl.style.display="block"
+	otl.style.visibility="visible"
+	if( gOtlActiveClr == "" ) gOtlActiveClr=document.linkColor
+	if( gOtlHiliteClr == "" ) gOtlHiliteClr=document.fgColor
+	if( gOtlNormalClr == "" )
+		gOtlNormalClr=document.bgColor
+	else
+		document.bgColor=gOtlNormalClr  
+
+	InitArray()
+
+	if( ObjExists( parent.gCurSld ) ) {
+		ChangeState( parent.gCurSld,gOtlNormalClr,gOtlHiliteClr )
+		gSelected=parent.gCurSld
+	}
+	else gSelected = -1
+
+	UpdOtl()
+}
+function UpdOtl(){ UpdIdx(parent.gCurSld) }
+function UpdIdx( idx )
+{
+	if( gSelected != idx ) {
+		if( gSelected > 0 )
+			ChangeState( gSelected,gOtlHiliteClr,gOtlNormalClr )
+
+		if( ObjExists( idx ) ) {
+			gSelected = idx
+			ChangeState( gSelected,gOtlNormalClr,gOtlHiliteClr )
+		}
+		else gSelected = -1
+	}
+
+	if( gTxtState != parent.gOtlTxtExp ) {
+		state = "block"
+		if( !parent.gOtlTxtExp )
+			state="none"
+
+		for(ii=0; ii<gChildEntryTable.length; ii++) {
+			obj=gChildEntryTable[ii];
+			if( obj.id == null ) continue;
+
+			if( obj.id.indexOf("PPTC") >= 0 )
+				obj.style.display=state;
+		} 
+		gTxtState=parent.gOtlTxtExp
+		if( ObjExists( gSelected ) )
+			ChangeState( gSelected,gOtlNormalClr,gOtlHiliteClr )
+	}
+}
+function InitArray()
+{
+	count=0
+	var list=GetTags(document,"DIV");
+	for(ii=0; ii<list.length; ii++) {
+		obj=list.item(ii)
+		if( obj.id == null ) continue
+
+		if( obj.id.indexOf("PPTC") >= 0 )  
+			gChildEntryTable[count++]=obj
+	}
+}
+function ChangeState( idx,fgColor,bgColor )
+{
+	obj=GetObj("PPTL"+idx)
+	obj.style.color=fgColor
+
+	obj=GetObj("PPTP"+idx)
+	obj.style.backgroundColor=bgColor
+}
+function ChgClr( o,clr ){ if( o.id != "PPTL"+gSelected ) o.style.color=clr }
+function Over( src ){ ChgClr(GetLink(src),gOtlActiveClr) }
+function Out( src ){ ChgClr(GetLink(src),gOtlHiliteClr) }
+function Follow(src){ window.location.href = GetLink(src).href; }
+function ObjExists( ii ) { obj=GetObj("PPTP"+ii ); return( obj ) }
+function GoToSld( href ){ UpdIdx(parent.GetSldNum(href)); parent.GoToSld( href ) }
+function CancelDrag(){ window.event.cancelBubble=true;window.event.returnValue=false}
+function GetLink(src)
+{
+   if(src.tagName=="A") return src
+   else return GetTags(src,"A").item(0)
+}
+
+function UpdNav()
+{
+	txt = "<center>";
+	if( parent.GetHrefObj( parent.gCurSld ).mOrigVis == 1 )
+		txt += "Slide " + parent.GetCurSldNum() + " of " + parent.GetNumSlds()
+	else
+		txt += "Hidden Slide"
+	txt += "</center>";
+	nav_text.innerHTML = txt;
+
+	if( !parent.HasPrevSld() )
+		gBtnArr["nb_prev"].Enabled(0)
+	else
+		gBtnArr["nb_prev"].Enabled(1)
+
+	if( !parent.HasNextSld() )
+		gBtnArr["nb_next"].Enabled(0)
+	else
+		gBtnArr["nb_next"].Enabled(1)
+	gBtnArr["nb_nts"].Enabled(1)
+	gBtnArr["nb_ntsBorder"].SetFlag( parent.gHasNts )
+
+	gBtnArr["nb_sldshw"].Enabled(1)
+	gBtnArr["nb_voice"].Enabled(1)
+}
+
+function ExecBtn()
+{
+	if (event.keyCode == 13)
+	{
+		BtnOnDown();
+		BtnOnUp();
+	}
+}
+function UpdOtlNav()
+{
+	gBtnArr["nb_otl"].SetEnabled();
+
+	if( parent.gOtlOpen )
+		gBtnArr["nb_otlTxt"].Enabled( true );
+	else
+		document.all.item("nb_otlTxtBorder").style.visibility = "hidden";
+}
+
+
+
+
+//--></script>
+<style>
+<!--.PTxt
+	{position:relative;
+	width:100%;
+	margin-top:5px;
+	padding-left:2px;
+	font-weight:bold;}
+.CTxt
+	{position:relative;
+	width:100%;
+	margin-top:5px;}
+a
+	{color:white;
+	text-decoration:none;}
+ul
+	{color:white;
+	margin-bottom:0px;
+	margin-left:20px;}
+.sldNum
+	{margin-top:5px;
+	color:white;}
+.button
+	{position:absolute;
+	width:32px;
+	height:20px;
+	border-style:solid;
+	border-width:1px;
+	border-color:threedface;}
+-->
+</style>
+</head>
+
+<body onload="Load()" style='margin:2px'>
+
+<div id=NavObj onload="Load()" onmouseover="BtnOnOver()"
+onmousedown="BtnOnDown()" onmouseout="BtnOnOut()" onmouseup="BtnOnUp()"
+onkeypress="ExecBtn()" style='display:none;visibility:hidden'>
+<table id="notesBtn" style='display:none;position:relative;width:55px' align=left cellpadding=0
+ cellspacing=0>
+ <td nowrap>
+ <div id="nb_ntsElem" title="Show/Hide
+Notes" align=center style='position:relative;margin-left:5px;margin-right:5px;padding:3px;
+ font-family:Arial;color:buttontext;font-size:9pt; cursor:default'>
+ <img src="notes_flag.gif" id="nb_nts" style='display:none'> &nbsp;Notes</div>
+ <div id="nb_ntsBorder" title ="Show/Hide
+Notes" onfocus="BtnOnOver()" onblur="BtnOnOut()" TABINDEX=1 style='position:absolute;top:0%;left:0%;width:100%;height:20px'>
+
+ </div>
+ </td>
+</table>
+
+
+<table style='position:relative;width:70px' align=right cellpadding=0 cellspacing=0>
+ <td nowrap>
+ <div id="nb_sldshwText" title="Full Screen Slide Show" align=center style='position:relative;margin-left:20px;padding:3px;
+ font-family:Arial;color:buttontext;font-size:9pt;cursor:default'>Slide
+Show</div>
+ <div id="nb_sldshwBorder" title="Full Screen Slide Show" onfocus="BtnOnOver()" onblur="BtnOnOut()" TABINDEX=5 style='position:absolute;top:0%;left:0%;width:100%;height:20px'>
+ <div style='position:absolute;clip:rect(0px, 18px, 18px, 0px)'><img
+ src="buttons.gif" id="nb_sldshw" style='position:relative;left:-254px'></div>
+ </div>
+ </td>
+ <td>
+ <div id="nb_voiceBorder" style='display:none;position:absolute;top:0;left:-40px;
+ width:20px;height:20px' onfocus="BtnOnOver()" onblur="BtnOnOut()" TABINDEX=4 class=button>
+ <div style='position:absolute;clip:rect(0px, 18px, 18px, 0px)'><img
+ src="buttons.gif" id="nb_voice" title="Pause/Play Narration" style='position:
+ relative;left:-290px'></div>
+ </div>
+ </td>
+</table>
+
+<table style='position:relative' align=center cellpadding=0 cellspacing=0>
+ <td nowrap>
+ <div id="nb_prevBorder" onfocus="BtnOnOver()" onblur="BtnOnOut()" TABINDEX=2 class=button style='left:-30px'>
+ <div style='position:absolute;clip:rect(0px, 30px, 18px, 0px)'><img
+ src="buttons.gif" id="nb_prev" title="Previous Slide" style='position:relative;
+ left:0px'></div>
+ </div>
+ <span id="nav_text" style='position:relative;top:3px;width:100px;font-family:
+ Arial;color:buttontext;font-size:9pt'></span>
+ <div id="nb_nextBorder" onfocus="BtnOnOver()" onblur="BtnOnOut()" TABINDEX=3 class=button>
+ <div style='position:absolute;clip:rect(0px, 30px, 18px, 0px)'><img
+ src="buttons.gif" id="nb_next" title="Next Slide" style='position:relative;
+ left:-90px'></div>
+ </div>
+ </td>
+</table>
+</div>
+
+<div id=OtlNavObj onload="Load()" onmouseover="BtnOnOver()"
+onmousedown="BtnOnDown()" onmouseout="BtnOnOut()" onmouseup="BtnOnUp()"
+onkeypress="ExecBtn()" style='display:none;visibility:hidden'>
+
+<table style='position:relative;width:70px' align=left cellpadding=0 cellspacing=0>
+ <td nowrap><div title="Show/Hide
+Outline" id="nb_otl" onfocus="BtnOnOver()" onblur="BtnOnOut()" TABINDEX=11
+ style='position:absolute;top:0%;left:0%;width:100%;height:100%;cursor:default'>
+ <div id="nb_otlElem" align=center style='position:relative;padding:3px;font-family:Arial;
+ color:buttontext;font-size:9pt'>Outline</div></div>
+ </td>
+</table>
+
+<table style='position:relative' align=center cellpadding=0 cellspacing=0>
+ <td>
+ <div style='position:absolute;left:-18px;width:24px;height:20px;border-style:
+ solid;border-width:1px;border-color:threedface' onfocus="BtnOnOver()" onblur="BtnOnOut()" TABINDEX=12 id="nb_otlTxtBorder">
+ <div style='position:absolute;clip:rect(0px, 22px, 18px, 0px)'><img
+ src=buttons.gif id="nb_otlTxt" title="Expand/Collapse Outline"
+ style='position:relative;left:-157px'></div>
+ </div>
+ </td>
+</table>
+
+</div>
+
+<div id=OtlObj style='display:none;visibility:hidden;'>
+
+
+<table width="100%" style='font-family:Arial;font-size:9pt'>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>1</font></div>
+  </td>
+  <td width="100%">
+  <div id=PPTP1 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0001.htm');" id=PPTL1>Role Based Access
+  Control</a></font></div>
+  <div id=PPTC1 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Peter Edwards</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>2</font></div>
+  </td>
+  <td>
+  <div id=PPTP2 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0003.htm');" id=PPTL2>Contents</a></font></div>
+  <div id=PPTC2 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>1. Requirement and Solution</li>
+   <li>2. Authentication and Authorisation Definitions</li>
+   <li>3. Authentication Process</li>
+   <li>4. Authentication Example</li>
+   <li>5. Authentication Session</li>
+   <li>6. More Authentication Session Examples</li>
+   <li>7. Authorisation Types</li>
+   <li>8. Article On Simple Authorisation</li>
+   <li>9. Simple Authorisation in Catalyst</li>
+   <li>10. CPAN Lattice-Based Access Control Example</li>
+   <li>14. Role Based Access Control</li>
+   <li>14.1. Academic Papers</li>
+   <li>14.2. Emerging Standards and Implementations</li>
+   <li>14.3. Existing Security Implementations</li>
+   <li>14.4. Perl Implementations</li>
+   <li>14.5. RBAC Design</li>
+   <li>14.6. RBAC Example</li>
+   <li>15. Further Information</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>3</font></div>
+  </td>
+  <td>
+  <div id=PPTP3 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0029.htm');" id=PPTL3>Requirement</a></font></div>
+  <div id=PPTC3 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Controlling user access to applications and the data within them</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>4</font></div>
+  </td>
+  <td>
+  <div id=PPTP4 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0030.htm');" id=PPTL4>Authentication and
+  Authorisation<br>
+    Definitions</a></font></div>
+  <div id=PPTC4 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Authentication is the validation of a userid that is used by a user or
+       batch process</li>
+   <li>Authorisation is checking that a userid is allowed to perform certain
+       operations on an object<br>
+              can &lt;user&gt; &quot;fred&quot; do &lt;operation&gt;
+       &quot;delete&quot; on &lt;object&gt; &quot;/home/fred/somefile.txt&quot;
+       of &lt;object_type&gt; &quot;file&quot;</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>5</font></div>
+  </td>
+  <td>
+  <div id=PPTP5 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0031.htm');" id=PPTL5>Authentication Process</a></font></div>
+  <div id=PPTC5 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>user/batch process requests access for &lt;userid&gt; using
+       &lt;credential&gt; from a server</li>
+   <li>server validates credential (e.g. password or key challenge certificate)
+       against userid and returns an &lt;authentication_token&gt;<span
+       style='mso-spacerun:yes'>  </span>(e.g. a cookie or hash token) which is
+       linked server side to the userid, typically in a session store</li>
+   <li>user/batch process supplies the authentication token along with
+       subsequent requests to the server</li>
+   <li>on receiving a request the server</li>
+   <ul>
+    <li>validates the authentication token</li>
+    <li>checks the linked userid has authorisation to 	<span
+        style='mso-spacerun:yes'>  </span>	perform the given request</li>
+   </ul>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>6</font></div>
+  </td>
+  <td>
+  <div id=PPTP6 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0032.htm');" id=PPTL6>Authentication Example</a></font></div>
+  <div id=PPTC6 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>use Authen::Simple::Passwd;</li>
+   <br>
+   <br>
+   <li>my $passwd = Authen::Simple::Passwd<br>
+              -&gt;new(path =&gt; '/etc/passwd');</li>
+   <br>
+   <br>
+   <li>if ( $passwd-&gt;authenticate( $username, $password ) ) {</li>
+   <li><span style='mso-spacerun:yes'>        </span># successfull
+       authentication</li>
+   <li>}</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>7</font></div>
+  </td>
+  <td>
+  <div id=PPTP7 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0033.htm');" id=PPTL7>Authentication Session</a></font></div>
+  <div id=PPTC7 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Once authenticated, you'll need a session to persist that, otherwise
+       you'd need to ask for the userid/password every time</li>
+   <li>Using Authen::Simple with Apache gives us an implicit session</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>8</font></div>
+  </td>
+  <td>
+  <div id=PPTP8 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0034.htm');" id=PPTL8>More Auth Session
+  Examples</a></font></div>
+  <div id=PPTC8 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>These modules on CPAN give examples of how to authenticate and have that
+       persisted in an authentication session</li>
+   <li><span style='mso-spacerun:yes'> </span>CGI::Application::Plugin::Authentication</li>
+   <li><span style='mso-spacerun:yes'> </span>CGI::Application::Plugin::Session</li>
+   <li><span style='mso-spacerun:yes'> </span>Catalyst::Manual::Tutorial::Authentication</li>
+   <li><span style='mso-spacerun:yes'> </span>Catalyst::Plugin::Authentication</li>
+   <li><span style='mso-spacerun:yes'> </span>Catalyst::Plugin::Authorization::Roles</li>
+   <br>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>9</font></div>
+  </td>
+  <td>
+  <div id=PPTP9 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0035.htm');" id=PPTL9>Authorisation Types / 1</a></font></div>
+  <div id=PPTC9 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>simple</li>
+   <li>authenticated user has full access to system</li>
+   <li>auth'd user has roles which each grant full access to a sub-system,
+       either<span style='mso-spacerun:yes'>  </span>as a process ('can
+       register new users') or data ('can amend customer records')</li>
+   <ul>
+    <li>the role acts effectively as a grouping mechanism</li>
+   </ul>
+   <li>Lattice-Based Access Control (LBAC)</li>
+   <ul>
+    <li>users (subjects) mapped to objects (resources, computers, applications)</li>
+   </ul>
+   <li>Role-Based Access Control (RBAC)</li>
+   <ul>
+    <li>users have hierarchical roles which have permissions that grant
+        operations<br>
+                e.g. user &quot;fred&quot; has role &quot;sysadmin&quot; which
+        has permission &quot;security_edit&quot;<span
+        style='mso-spacerun:yes'>  </span>which grants operations
+        &quot;read&quot; and &quot;write&quot; on security objects<br>
+                instead user &quot;fred&quot; might have role &quot;root&quot;
+        which inherits from role &quot;sysadmin&quot; those permissions</li>
+   </ul>
+   <li>RBAC with Access Control List extension</li>
+   <ul>
+    <li>users have roles which have permissions with a precedence that<span
+        style='mso-spacerun:yes'>  </span>grant operations on matched
+        objects<br>
+                e.g. user &quot;jo&quot; has role &quot;editor&quot; which has
+        permission &quot;food_recipes&quot;<span style='mso-spacerun:yes'> 
+        </span>which grants operations &quot;read&quot;, &quot;write&quot;,
+        &quot;delete&quot; to objects<span style='mso-spacerun:yes'> 
+        </span>&quot;of type 'document' with file path matching
+        '/home/recipes/*'“</li>
+   </ul>
+   <li>enterprise framework, e.g. PERMIS storing permissions via OpenLDAP
+       and<span style='mso-spacerun:yes'>   </span>authenticating against
+       Windows ADS BBC SSO or Shibboleth</li>
+   <li>complex</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>10</font></div>
+  </td>
+  <td>
+  <div id=PPTP10 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0036.htm');" id=PPTL10>Authorisation Types / 2</a></font></div>
+  <div id=PPTC10 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>The user-role assignment may be inherent in the authorisation system,or
+       might be read externally, say from an ADS server via LDAP</li>
+   <li>The object matching might involve callouts to more sophisticated
+       checking code plugins that query other systems</li>
+   <li>Authorisation is usually applied at application level to check actions</li>
+   <li>It can also be applied at database level to filter all access to data
+       the user is allowedto see, either by a database view or by using a
+       relational database object wrapper layerto provide an additional safety
+       net, e.g.<br>
+              DBIx::Class::Schema::RestrictWithObject</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>11</font></div>
+  </td>
+  <td>
+  <div id=PPTP11 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0037.htm');" id=PPTL11>Article On Simple
+  Authorisation</a></font></div>
+  <div id=PPTC11 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>&quot;Elements of Access Control&quot; at perl.com by Vladi
+       Belperchinov-Shabanski, Feb 13 2008 http://www.perl.com/pub/a/2008/02/13/elements-of-access-control.html</li>
+   <li>	Some nice examples of reading users and groups from file or database</li>
+   <li>Policy configuration syntax</li>
+   <li>Policy parser</li>
+   <li>User group storage and mapping</li>
+   <li>User group loading</li>
+   <li>Policy match function</li>
+   <li>Data fences</li>
+   <li>I won't go through it now but worth reading on-line</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>12</font></div>
+  </td>
+  <td>
+  <div id=PPTP12 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0038.htm');" id=PPTL12>Simple Authorisation in
+  Catalyst</a></font></div>
+  <div id=PPTC12 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>user &lt;-many--many-&gt; role</li>
+   <li>role has meaning in your application code</li>
+   <li>Catalyst::Plugin::Authorization::Roles</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>13</font></div>
+  </td>
+  <td>
+  <div id=PPTP13 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0039.htm');" id=PPTL13>CPAN Lattice-Based
+  Access Control Example</a></font></div>
+  <div id=PPTC13 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>WE::Util::Permissions</li>
+   <li>Uses a single file of permission rules queried via a Perl interface</li>
+   <li>User or group matches rules which link operations to matched objects</li>
+   <li>In the terminology of the author, operations are &quot;processes&quot;,
+       objects are &quot;pages“</li>
+   <li>Part of a wider web file editing framework</li>
+   <li>I wrote a very similar authorisation handler in C for the Open
+       University many years ago although Perl's obviously much better at
+       tokenising text files and handling data!</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>14</font></div>
+  </td>
+  <td>
+  <div id=PPTP14 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0040.htm');" id=PPTL14>WE::Utils::Permissions
+  File Format</a></font></div>
+  <div id=PPTC14 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <br>
+   <li>Based on these tokens</li>
+   <ul>
+    <li>user		list of users</li>
+    <li>group		list of groups</li>
+    <li>process	operation like “delete”</li>
+    <li>Page		file path or regexp or glob</li>
+    <br>
+    <br>
+   </ul>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>15</font></div>
+  </td>
+  <td>
+  <div id=PPTP15 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0041.htm');" id=PPTL15>WE::U::P File Examples
+  / 1</a></font></div>
+  <div id=PPTC15 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Use globbing for matching and allow the &quot;admin&quot; group to have
+       rights for all processes. There is no page restriction, so the rights
+       are valid for all objects</li>
+   <br>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>16</font></div>
+  </td>
+  <td>
+  <div id=PPTP16 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0042.htm');" id=PPTL16>WE::U::P File Examples
+  / 2</a></font></div>
+  <div id=PPTC16 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>The members of the group &quot;news&quot; are allowed to do the
+       following operations in all objects below
+       &quot;/News/&quot;:&quot;edit&quot;, &quot;change-folder&quot;,
+       &quot;new-doc&quot;, &quot;rm-doc&quot;, &quot;release&quot; and
+       &quot;publish&quot;.A regular expression match is used here (there is no
+       &quot;! match&quot; directive).</li>
+   <br>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>17</font></div>
+  </td>
+  <td>
+  <div id=PPTP17 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0043.htm');" id=PPTL17>WE::U::P Querying</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>18</font></div>
+  </td>
+  <td>
+  <div id=PPTP18 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0044.htm');" id=PPTL18>WE::U::P Caveats</a></font></div>
+  <div id=PPTC18 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>You have to provide user and group handling (&quot;The semantics of
+       users, groups, processes and pages are usually defined in another
+       layer&quot;)</li>
+   <li>No admin interface to create rules</li>
+   <li>&quot;There is currently no way to specify a token with spaces or
+       slashes.”</li>
+   <li>“Diagnostics is poor. Unrecognized tokens won't cause errors or
+       warnings.”</li>
+   <li>No precedence other than rule order (e.g. how do I deny a tree except
+       for a sub-tree which is allowed).</li>
+   <li>No plugin methods matching/precedence caclulation.</li>
+   <li>	But you could use the ideas and code as a basis for your own
+       authorisation library.Have a look at the code on CPAN.</li>
+   <br>
+   <br>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>19</font></div>
+  </td>
+  <td>
+  <div id=PPTP19 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0045.htm');" id=PPTL19>Role Based Access
+  Control</a></font></div>
+  <div id=PPTC19 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>	This is an evolving area and it is surprising how recently the
+       standards for it have been written (2001 on)</li>
+   <li>NIST &quot;Role Based Access Control (RBAC) and Role Based Security</li>
+   <li>“The NIST Model for Role-Based Access Control: Towards A Unified
+       Standard”</li>
+   <li>Proposed NIST Standard for Role-Based Access Control</li>
+   <li>ACM Transactions on Information and System Security, Vol. 4, No. 3,
+       August 2001 by D.F.Ferraiolo et al.</li>
+   <li>&quot;Beyond Roles: A Practical Approach to Enterprise User
+       Provisioning&quot;</li>
+   <br>
+   <br>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>20</font></div>
+  </td>
+  <td>
+  <div id=PPTP20 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0047.htm');" id=PPTL20>Emerging Standards and
+  Implementations</a></font></div>
+  <div id=PPTC20 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>	An evolving area. Surprising how recently the standards for it have
+       been written (2001 on)</li>
+   <li>XACML<br>
+              http://en.wikipedia.org/wiki/XACML</li>
+   <li>&quot;OASIS eXtensible Access Control Markup Language (XACML) TC“</li>
+   <li>“Core and hierarchical role based access control (RBAC) profile of XACML
+       v2.0”</li>
+   <li>Sun's XACML Open Source impl. in Java<br>
+              http://sunxacml.sourceforge.net</li>
+   <li>Axis2 web service for Apache Maven<br>
+              http://xacmllight.sourceforge.net/ <br>
+              C/Java providing SOAP stack</li>
+   <li>Still a moving target!</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>21</font></div>
+  </td>
+  <td>
+  <div id=PPTP21 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0046.htm');" id=PPTL21>Existing Security
+  Implementations / 1</a></font></div>
+  <div id=PPTC21 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Windows ADS</li>
+   <ul>
+    <li>Using an LDAP connector to authenticate users and determine group
+        memberships and permissions,<span style='mso-spacerun:yes'> 
+        </span>such as Perl-LDAP http://ldap.perl.org/</li>
+    <li>Requires application-side logic to interpret permissions</li>
+   </ul>
+   <li>OpenLDAP</li>
+   <ul>
+    <li>&quot;LDAP for Security, Part I“<br>
+                http://www.linuxjournal.com/article/6789</li>
+    <li>Paranoid Penguin &quot;Authenticate with LDAP, Part III“<br>
+                http://www.linuxjournal.com/article/6936</li>
+   </ul>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>22</font></div>
+  </td>
+  <td>
+  <div id=PPTP22 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0048.htm');" id=PPTL22>Existing Security
+  Implementations / 2</a></font></div>
+  <div id=PPTC22 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>PERMIS Privilege Management Infrastructure</li>
+   <ul>
+    <li>Enterprise-wide, huge, complex</li>
+    <li>http://sec.cs.kent.ac.uk/permis/</li>
+    <li>http://www.openpermis.org/download.htm</li>
+    <li>PERMIS PMI Architecture &quot;Implementing Role Based Access Controls
+        Using X.509 Attribute Certificates”</li>
+    <li>&quot;RBAC POLICIES IN XML FOR X.509 BASED PRIVILEGE MANAGEMENT&quot;</li>
+   </ul>
+   <br>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>23</font></div>
+  </td>
+  <td>
+  <div id=PPTP23 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0049.htm');" id=PPTL23>Existing Security
+  Implementations / 3</a></font></div>
+  <div id=PPTC23 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Shibboleth</li>
+   <ul>
+    <li>A standards based, open source software package for web single sign-on
+        across<span style='mso-spacerun:yes'>   </span>or within organizational
+        boundaries that can work with PERMIS http://shibboleth.internet2.edu/</li>
+   </ul>
+   <li>Distributed Access Control System (DACS)</li>
+   <ul>
+    <li>http://dacs.dss.ca/faq.html</li>
+    <li>Written in C, well-designed, modular</li>
+    <li>Provides authentication and authorisation</li>
+    <li>Doesn't work on Apache 1, which the BBC uses in production :-(</li>
+   </ul>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>24</font></div>
+  </td>
+  <td>
+  <div id=PPTP24 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0051.htm');" id=PPTL24>Existing Security
+  Implementations / 4</a></font></div>
+  <div id=PPTC24 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>&quot;A Role-Based Access Control (RBAC) system for PHP“ by Tony Marston</li>
+   <ul>
+    <li>http://www.tonymarston.net/php-mysql/role-based-access-control.html</li>
+    <li>small, well-designed, good for standalone applications</li>
+   </ul>
+   <li>&quot;Fine Grained Role Based Access Control (RBAC) system&quot; for PHP</li>
+   <ul>
+    <li>reasonable database design and PHP code</li>
+   </ul>
+   <li>POSIX ACL – ACLs from Python</li>
+   <ul>
+    <li>http://pylibacl.sourceforge.net/</li>
+   </ul>
+   <li>Linux kernel extension &quot;grsecurity“</li>
+   <ul>
+    <li>http://www.grsecurity.net/index.php</li>
+    <li>Unix-based kernel level RBAC, really aimed at Unix files and users</li>
+   </ul>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>25</font></div>
+  </td>
+  <td>
+  <div id=PPTP25 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0050.htm');" id=PPTL25>Perl Implementations of
+  RBAC</a></font></div>
+  <div id=PPTC25 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>I know of no solutions in Perl although there are libraries for Python,
+       Ruby, Java. In principle you could wrap one of them</li>
+   <li>We needed one at the BBC so I wrote one called IFL::Authz and hope to
+       release it to CPAN</li>
+   <li>Based on Ferraiolo et al. &quot;Proposed NIST Standard for Role-Based
+       Access Control&quot;</li>
+   <li>	This paper has a Functional Specification of an API written in the Z
+       formal language which I adapted to Perl. Z is nice match for the
+       mathematical set theory underlying RBAC though there are some errors in
+       the paper.</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>26</font></div>
+  </td>
+  <td>
+  <div id=PPTP26 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0027.htm');" id=PPTL26>RBAC Model</a></font></div>
+  <div id=PPTC26 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>From Ferraiolo http://csrc.nist.gov/rbac/rbacSTD-ACM.pdf</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>27</font></div>
+  </td>
+  <td>
+  <div id=PPTP27 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0028.htm');" id=PPTL27>RBAC Model Detail</a></font></div>
+  <div id=PPTC27 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>When defining an RBAC model, the following conventions are useful:</li>
+   <li>S = Subject = A person or automated agent</li>
+   <li>R = Role = Job function or title which defines an authority level</li>
+   <li>P = Permissions = An approval of a mode of access to a resource</li>
+   <li>SE = Session = A mapping involving S, R and/or P</li>
+   <li>SA = Subject Assignment</li>
+   <li>PA = Permission Assignment</li>
+   <li>RH = Partially ordered role Hierarchy. RH can also be written: &#8805;</li>
+   <li>A subject can have multiple roles.</li>
+   <li>A role can have multiple subjects.</li>
+   <li>A role can have many permissions.</li>
+   <li>A permission can be assigned to many roles.</li>
+   <li>A constraint places a restrictive rule on the potential inheritance of
+       permissions from opposing roles, thus it can be used to achieve
+       appropriate segregation of duties. For example, the same person should
+       not be allowed to both create a login account for someone, and also be
+       allowed to authorize the procedure.</li>
+   <li>A subject may have multiple simultaneous sessions with different
+       permissions.</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>28</font></div>
+  </td>
+  <td>
+  <div id=PPTP28 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0052.htm');" id=PPTL28>RBAC Example</a></font></div>
+  <div id=PPTC28 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Subject = user &quot;joe“</li>
+   <li>Role = &quot;editor“</li>
+   <li>Operation = &quot;publish“</li>
+   <li>	However, at the BBC we're using it to handle sophisticated
+       authorisation for a CMS system which requires ACLs, so we need object
+       matching too</li>
+   <li>From the Wikipedia article on RBAC:</li>
+   <ul>
+    <li>&quot;With the concepts of role hierarchy and constraints, one can
+        control RBAC to create or simulate lattice-based access control (LBAC).
+        Thus RBAC can be considered a superset of LBAC.</li>
+   </ul>
+   <li>	I.e. RBAC + ACLs = LBAC</li>
+   <li>To do this I extended the concept of permission to include within it a
+       reference to an object, or matches against objects using regexps, globs
+       or plugin method</li>
+   <li>Object = &quot;/home/recipes/*&quot;</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>29</font></div>
+  </td>
+  <td>
+  <div id=PPTP29 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0053.htm');" id=PPTL29>Code Examples - Create
+  Authz / 1</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>30</font></div>
+  </td>
+  <td>
+  <div id=PPTP30 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0054.htm');" id=PPTL30>Code Examples - Create
+  Authz / 2</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>31</font></div>
+  </td>
+  <td>
+  <div id=PPTP31 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0055.htm');" id=PPTL31>Code Examples - Create
+  Authz / 3</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>32</font></div>
+  </td>
+  <td>
+  <div id=PPTP32 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0056.htm');" id=PPTL32>Code Examples - Query
+  Authz / 1</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>33</font></div>
+  </td>
+  <td>
+  <div id=PPTP33 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0057.htm');" id=PPTL33>Code Examples - Query
+  Authz / 2</a></font></div>
+  </td>
+ </tr>
+ <tr onmouseover="Over(this)" onmouseout="Out(this)" onclick="Follow(this)"
+  style='cursor:hand'>
+  <td align=right valign=top>
+  <div class=sldNum><font size=2>34</font></div>
+  </td>
+  <td>
+  <div id=PPTP34 class=PTxt><font size=2><a
+  href="javascript:GoToSld('slide0025.htm');" id=PPTL34>Summary and Links</a></font></div>
+  <div id=PPTC34 class=CTxt style='display:none'><font size=2>
+  <ul>
+   <li>Summary</li>
+   <ul>
+    <li>There’s a lot to it, evolving standards</li>
+    <li>Choice of library depends on language, platform, whether it’s
+        enterprise, any special requirements</li>
+    <li>Authentication and Authorisation</li>
+    <li>At the simplest, use roles</li>
+    <li>Then look at a lattice</li>
+    <li>More complex may require RBAC</li>
+    <br>
+    <br>
+   </ul>
+   <li>Links</li>
+   <ul>
+    <li>Slides at http://miltonkeynes.pm.org</li>
+    <li>Sandhu, R., Ferraiolo, D.F. and Kuhn, D.R. (July 2000). &quot;The NIST
+        Model for Role Based Access Control: Toward a Unified Standard&quot; (PDF).&nbsp;5th
+        ACM Workshop Role-Based Access Control: 47-63.</li>
+   </ul>
+   <br>
+   <li>Thank you. Any Questions?</li>
+  </ul>
+  </font></div>
+  </td>
+ </tr>
+</table>
+
+
+
+</div>
+
+<div style='display:none'><a href=master05.htm></a><a href=master05.xml></a><a
+href=preview.wmf></a><a href=master06.htm></a><a href=master06.xml></a><a
+href=master02.htm></a><a href=pres.xml></a><a href=slide0001.htm></a><a
+href="master06_background.gif"></a><a href="master06_image001.gif"></a><a
+href="slide0001_image002.jpg"></a><a href=slide0003.htm></a><a
+href="master05_background.gif"></a><a href="master05_image003.gif"></a><a
+href=slide0029.htm></a><a href=slide0030.htm></a><a href=slide0031.htm></a><a
+href=slide0032.htm></a><a href="slide0032_image004.gif"></a><a
+href=slide0033.htm></a><a href="slide0033_image005.gif"></a><a
+href=slide0034.htm></a><a href=slide0035.htm></a><a
+href="slide0035_image006.gif"></a><a href="slide0035_image007.gif"></a><a
+href=slide0036.htm></a><a href=slide0037.htm></a><a href=slide0038.htm></a><a
+href="slide0038_image008.gif"></a><a href=slide0039.htm></a><a
+href=slide0040.htm></a><a href=slide0041.htm></a><a
+href="slide0041_image009.gif"></a><a href="slide0041_image010.gif"></a><a
+href=slide0042.htm></a><a href="slide0042_image011.gif"></a><a
+href=slide0043.htm></a><a href="slide0043_image012.gif"></a><a
+href=slide0044.htm></a><a href=slide0045.htm></a><a href=slide0047.htm></a><a
+href=slide0046.htm></a><a href=slide0048.htm></a><a href=slide0049.htm></a><a
+href=slide0051.htm></a><a href=slide0050.htm></a><a href=slide0027.htm></a><a
+href="slide0027_image013.png"></a><a href="slide0027_image014.jpg"></a><a
+href=slide0028.htm></a><a href=slide0052.htm></a><a href=slide0053.htm></a><a
+href="slide0053_image015.gif"></a><a href=slide0054.htm></a><a
+href="slide0054_image016.gif"></a><a href=slide0055.htm></a><a
+href="slide0055_image017.gif"></a><a href=slide0056.htm></a><a
+href="slide0056_image018.gif"></a><a href=slide0057.htm></a><a
+href="slide0057_image019.gif"></a><a href=slide0025.htm></a><a
+href=master01.htm></a><a href="master05_stylesheet.css"></a><a href=script.js></a><a
+href="../rbac.htm"></a><a href=fullscreen.htm></a><a href=buttons.gif></a><a
+href=frame.htm></a><a href=outline.htm></a></div>
+
+</body>
+
+</html>

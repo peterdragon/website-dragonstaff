@@ -1,0 +1,567 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><!-- xml:lang="ar" lang="ar" -->
+
+<head>
+<title>Adding OAuth to BBC World Service Arabic Twitter Feeder</title>
+<!-- metadata -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<meta name="generator" content="S5" />
+<meta name="version" content="S5 1.1" />
+<meta name="presdate" content="2010412" />
+<meta name="author" content="Peter Edwards" />
+<meta name="company" content="Dragonstaff Ltd / BBC World Service" />
+<!-- configuration parameters -->
+<meta name="defaultView" content="slideshow" />
+<meta name="controlVis" content="hidden" />
+<!-- style sheet links -->
+<link rel="stylesheet" href="ui/default/slides.css" type="text/css" media="projection" id="slideProj" />
+<link rel="stylesheet" href="ui/default/outline.css" type="text/css" media="screen" id="outlineStyle" />
+<link rel="stylesheet" href="ui/default/print.css" type="text/css" media="print" id="slidePrint" />
+<link rel="stylesheet" href="ui/default/opera.css" type="text/css" media="projection" id="operaFix" />
+<link rel="stylesheet" href="peter.css" type="text/css" media="screen" />
+<!-- S5 JS -->
+<script src="ui/default/slides.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div class="layout">
+<div id="controls"><!-- DO NOT EDIT --></div>
+<div id="currentSlide"><!-- DO NOT EDIT --></div>
+<div id="header"></div>
+<div id="footer">
+<h1>MiltonKeynes.pm</h1>
+<h2>Adding OAuth to BBC World Service Arabic Twitter Feeder</h2>
+</div>
+
+</div>
+
+
+<div class="presentation">
+
+<div class="slide">
+<h1>Adding OAuth to BBC World Service Arabic Twitter Feeder</h1>
+<h3>Peter Edwards</h3>
+<h4>Dragonstaff Ltd / BBC</h4>
+<br />
+<h4><img src="pix/bbcwsfm.png" id="me01" alt="BBC WS" /></h4>
+</div>
+
+
+<div class="slide">
+<h1>BBC World Service</h1>
+<ul class="incremental">
+<li>25 different language services</li>
+<li><a href="http://www.bbc.co.uk/arabic/institutional/2009/06/090622_aboutus.shtml">BBC Arabic</a>, launched January 3rd 1938</li>
+<li>radio</li>
+<li>websites - http://bbcarabic.com</li>
+<li>mobile - http://bbcarabic.com/mobile</li>
+<li>email and SMS</li>
+</ul>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+<div class="slide">
+<h1>BBCArabic.com</h1>
+<p>
+<img src="pix/bbcarabic.png" alt="BBC Arabic site" />    
+</p>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+<div class="slide">
+<h1>Breaking News</h1>
+<p>As well as the web sites there are breaking news feeds</p>
+<ul class="incremental">
+<li>email</li>
+<li>SMS (paid subscribers)</li>
+<li>Twitter</li>
+</ul>
+<p>I wrote a tool the Arabic journalists use to send these out</p>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+<div class="slide">
+<h1>Breaking News Tool</h1>
+<p>
+<img src="pix/bnapp.png" alt="Breaking news tool" />    
+</p>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+<div class="slide">
+<h1>Twitter bbcarabicalerts
+</h1>
+<p>
+<img src="pix/bbcarabicalerts.png" alt="Twitter bbcarabicalerts" />    
+</p>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+
+<div class="slide">
+<h1>Typical tweet</h1>
+<ul>
+<li>رئيس جنوب افريقيا يعلن موافقة الحكومة الليبية على خطة الاتحاد الافريقي <a href="http://bbc.in/aQFkOP">http://bbc.in/aQFkOP</a></li>
+<li>That translates as "President of South Africa, the Libyan government announced the approval of a plan of the African Union"</li>
+</ul>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+<div class="slide">
+<h1>How was I sending them out?</h1>
+<p>Net::Twitter::Lite</p>
+<ul>
+<li>simple POST to Twitter verified by Twitter username/password</li>
+</ul>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+<div class="slide">
+<h1>Ohnoes! Twitter woes</h1>
+<ul class="incremental">
+<li>Twitter moves to using OAuth signed requests</li>
+<li>more secure, exposes consumer and app access keys rather than username/password</li>
+<li>easy to revoke compromised keys</li>
+<li>Twitter gave a deadline to turn off simple authorisation</li>
+</ul>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+<div class="slide">
+<h1>How to sign a request</h1>
+<p>Net::Twitter::Lite</p>
+<ul class="incremental">
+<li>the simple one you should use now</li>
+<li>does all the hard work for you</li>
+<li>at the time didn't support OAuth</li>
+<li>so I was stuck</li>
+</ul>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+<div class="slide">
+<h1>What provides low level support?</h1>
+<p>Net::OAuth</p>
+<ul class="incremental">
+<li>low level module</li>
+<li>handles OAuth signing using app and user keys</li>
+</ul>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+<div class="slide">
+<h1>Other CPAN Modules</h1>
+<p>Cool. What other CPAN Twitter modules support this?</p>
+<p>Net::Twitter</p>
+<ul class="incremental">
+<li>supports OAuth</li>
+<li>but uses Moose</li>
+<li>a lot of CPAN deps</li>
+<li>using legacy FC3 server, hard to install deps</li>
+<li>hassle of getting approval to install new CPAN modules</li>
+</ul>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+<div class="slide">
+<h1>Approval, you say?</h1>
+<p><img src="pix/grumpy.jpg" alt="Grumpy" /></p>
+<ul class="incremental">
+<li>Development Manager</li>
+<li>BBC Digital Delivery & Operations team</li>
+<li>Redbee operations partner</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Approval, you say?</h1>
+<p>Sometimes it's quicker and more practical to hack on the code</p>
+<p>But I'm getting ahead of myself</p>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+<div class="slide">
+<h1>Complexity</h1>
+<p>Let's see what the complexity is of using these modules</p>
+<pre>
+$ export PERL5LIB=
+$ eval $(perl -Mlocal::lib=$HOME/perl_local_temp)
+$ cpanm Net::OAuth
+looking in /home/edwarp11/.cpanm/work/1302607609.14616/
+</pre>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+
+<div class="slide">
+<h1>Net::OAuth Deps</h1>
+<pre>
+Net-OAuth-0.27.tar.gz
+Digest-SHA1-2.13.tar.gz
+Class-Data-Inheritable-0.08.tar.gz
+Class-Accessor-0.34.tar.gz
+Encode-2.42.tar.gz
+Test-Warn-0.23.tar.gz
+Sub-Uplevel-0.22.tar.gz
+Tree-DAG_Node-1.06.tar.gz
+</pre>
+<p>not bad</p>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+<div class="slide">
+<h1>Net::Twitter::Lite</h1>
+<p>$ cpanm Net::Twitter::Lite</p>
+<pre>
+Net-Twitter-Lite-0.10004.tar.gz
+URI-1.58.tar.gz
+Crypt-SSLeay-0.58.tar.gz
+JSON-2.51.tar.gz
+JSON-XS-2.3.tar.gz
+common-sense-3.4.tar.gz
+JSON-Any-1.27.tar.gz
+</pre>
+<p>not bad at all</p>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+<div class="slide">
+<h1>Net::Twitter</h1>
+<p>$ cpanm Net::Twitter</p>
+<pre>
+Net-Twitter-3.17001.tar.gz
+DateTime-0.66.tar.gz
+DateTime-TimeZone-1.33.tar.gz
+Class-Singleton-1.4.tar.gz
+parent-0.225.tar.gz
+Params-Validate-0.95.tar.gz
+Attribute-Handlers-0.88.tar.gz
+ExtUtils-CBuilder-0.280202.tar.gz
+Class-Load-0.06.tar.gz
+</pre>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+<div class="slide">
+<h1>...</h1>
+<pre>
+Test-Fatal-0.003.tar.gz
+Try-Tiny-0.09.tar.gz
+Exporter-5.63.tar.gz
+DateTime-Locale-0.45.tar.gz
+List-MoreUtils-0.30.tar.gz
+Test-Exception-0.31.tar.gz
+Data-Visitor-0.27.tar.gz
+namespace-clean-0.20.tar.gz
+Package-Stash-0.29.tar.gz
+Dist-CheckConflicts-0.02.tar.gz
+</pre>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+<div class="slide">
+<h1>...</h1>
+<pre>
+Sub-Exporter-0.982.tar.gz
+Params-Util-1.03.tar.gz
+Sub-Install-0.925.tar.gz
+Data-OptList-0.106.tar.gz
+Package-DeprecationManager-0.10.tar.gz
+Test-Requires-0.06.tar.gz
+Package-Stash-XS-0.22.tar.gz
+Sub-Name-0.05.tar.gz
+Sub-Identify-0.04.tar.gz
+B-Hooks-EndOfScope-0.09.tar.gz
+</pre>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+<div class="slide">
+<h1>...</h1>
+<pre>
+Variable-Magic-0.46.tar.gz
+Tie-ToObject-0.03.tar.gz
+Test-use-ok-0.02.tar.gz
+Task-Weaken-1.04.tar.gz
+Moose-2.0000.tar.gz
+MRO-Compat-0.11.tar.gz
+Class-C3-0.23.tar.gz
+Algorithm-C3-0.08.tar.gz
+Eval-Closure-0.03.tar.gz
+Devel-GlobalDestruction-0.03.tar.gz
+</pre>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+<div class="slide">
+<h1>...</h1>
+<pre>
+Scope-Guard-0.20.tar.gz
+DateTime-Format-Strptime-1.5000.tar.gz
+Digest-SHA-5.61.tar.gz
+namespace-autoclean-0.12.tar.gz
+Devel-StackTrace-1.27.tar.gz
+MooseX-Role-Parameterized-0.25.tar.gz
+MooseX-MultiInitArg-0.01.tar.gz
+</pre>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+<div class="slide">
+<h1>...</h1>
+<p>Phew. But...</p>
+<pre>
+Building and testing Net-Twitter-3.17001 ... FAIL
+! Installing Net::Twitter failed. See /home/edwarp11/.cpanm/build.log for details.
+
+t/01_basic.t ................... skipped: LWP::UserAgent 5.819 required
+Can't locate object method "add_handler" via package "LWP::UserAgent" at /home/edwarp11/.cpanm/work/1302608105.26692/Net-Twitter-3.17001/blib/lib/Net/Twitter/Role/RateLimit.pm line 77.
+# Looks like your test exited with 9 before it could output anything.
+t/leak.t .......................
+</pre>
+<p>Oops</p>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+
+<div class="slide">
+<h1>...</h1>
+<p>$ cpanm LWP::UserAgent</p>
+<pre>
+libwww-perl-6.02.tar.gz
+LWP-MediaTypes-6.01.tar.gz
+Encode-Locale-1.02.tar.gz
+HTTP-Message-6.02.tar.gz
+IO-Compress-2.033.tar.gz
+Compress-Raw-Bzip2-2.033.tar.gz
+Compress-Raw-Zlib-2.033.tar.gz
+HTTP-Date-6.00.tar.gz
+HTTP-Negotiate-6.00.tar.gz
+File-Listing-6.02.tar.gz
+HTTP-Daemon-6.00.tar.gz
+Net-HTTP-6.00.tar.gz
+HTTP-Cookies-6.00.tar.gz
+WWW-RobotRules-6.01.tar.gz
+</pre>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+<div class="slide">
+<h1>...</h1>
+<p>$ cpanm Net::Twitter</p>
+<pre>
+Fetching http://search.cpan.org/CPAN/authors/id/M/MM/MMIMS/Net-Twitter-3.17001.tar.gz ... OK
+Configuring Net-Twitter-3.17001 ... OK
+Building and testing Net-Twitter-3.17001 ... OK
+Successfully installed Net-Twitter-3.17001
+</pre>
+<p>Phew! Way too much</p>
+<div class="handout">
+[any material that should appear in print but not on the slide]
+</div>
+</div>
+
+<div class="slide">
+<h1>Hack on the Code</h1>
+<p>All I needed was a quick change to an existing app.
+How hard can it be?</p>
+<p>Original code was</p>
+<pre>
+my $nt = Net::Twitter::Lite->new(
+    username    => $username,
+    password    => $password,
+    useragent   => 'BBC WS Breaking News',
+);
+my $result = $nt->update( $message ); # will throw an exception on error
+my $twitter_message_id = $result->{id};
+</pre>
+</div>
+
+<div class="slide">
+<h1>Adding OAuth</h1>
+<p>So what's involved in using OAuth instead? I looked at these</p>
+<ul class="incremental">
+<li><a href="http://dev.twitter.com/pages/basic_to_oauth">http://dev.twitter.com/pages/basic_to_oauth</a></li>
+<li><a href="http://net.tutsplus.com/tutorials/php/creating-a-twitter-oauth-application/">http://net.tutsplus.com/tutorials/php/creating-a-twitter-oauth-application/</a></li>
+<li><a href="http://search.cpan.org/perldoc?Net::OAuth">http://search.cpan.org/perldoc?Net::OAuth</a></li>
+<li>sample Python app <a href="http://popdevelop.com/2010/07/an-example-on-how-to-use-oauth-and-python-to-connect-to-twitter/">http://popdevelop.com/2010/07/an-example-on-how-to-use-oauth-and-python-to-connect-to-twitter/</a></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Adding OAuth</h1>
+<p>You need to</p>
+<ul class="incremental">
+<li>register an app with Twitter first to get OAuth keys</li>
+<li>use OAuth to digitally sign a request with your two keys</li>
+<li>do an HTTP POST to Twitter to execute the request, passing an auth header</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Twitter app registration</h1>
+<p>1. Register a Twitter app and get OAuth keys</p>
+<ul>
+<li>register - <a href="https://dev.twitter.com/apps/new">https://dev.twitter.com/apps/new</a></li>
+<li>list your apps - <a href="https://dev.twitter.com/apps">https://dev.twitter.com/apps</a></li>
+<li>this app - <a href="https://dev.twitter.com/apps/387606">https://dev.twitter.com/apps/387606</a></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Twitter app registration</h1>
+<p><img src="pix/app_reg.png" alt="Twitter app reg" /></p>
+</div>
+
+<div class="slide">
+<h1>Twitter app key details</h1>
+<p><img src="pix/app_details.png" alt="Twitter app details" /></p>
+</div>
+
+<div class="slide">
+<h1>Use OAuth To Sign Request</h1>
+<pre>
+use Net::OAuth;
+
+# create a nonce (unique value + timestamp)
+my $nonce = "".( int(rand(2**31 - 999999 + 1)) + 999999);
+
+my $request = Net::OAuth->request("protected resource")->new(
+ consumer_key       => $twitter_consumer_key,
+ consumer_secret    => $twitter_consumer_secret,
+ token              => $twitter_oauth_access_token,
+ token_secret       => $twitter_oauth_access_token_secret,
+ signature_method   => 'HMAC-SHA1',
+</pre>
+</div>
+
+<div class="slide">
+<h1>Use OAuth To Sign Request</h1>
+<pre>
+ timestamp          => time,
+ nonce              => $nonce,
+ request_method     => 'POST',
+ request_url        => 'http://twitter.com/statuses/update.xml',
+ extra_params       => {status => $message}
+);
+
+$request->sign;
+</pre>
+</div>
+
+<div class="slide">
+<h1>POST the request</h1>
+<pre>
+use LWP::UserAgent;
+use HTTP::Request::Common qw(POST);
+use XML::Simple;
+
+my $ua = LWP::UserAgent->new;
+$ua->env_proxy;
+$ua->agent('BBC World Service TwitterFeed/1.0 (Perl)');
+$ua->default_header('X-Twitter-Client'
+ => 'Perl BBC World Service TwitterFeed');
+$ua->default_header('X-Twitter-Client-Version' => '1.0');
+$ua->default_header('X-Twitter-Client-URL'
+ => 'http://www.bbc.co.uk/worldservice/');    
+</pre>
+</div>
+
+<div class="slide">
+<h1>POST the request</h1>
+<pre>
+my $msg = POST(
+ $request->request_url, 
+ Authorization   =>
+   $request->to_authorization_header,
+ Content         => [status => $message],
+);
+TRACEAT 9, $msg->as_string;
+</pre>
+</div>
+
+<div class="slide">
+<h1>POST the request</h1>
+<pre>
+my $response = $ua->request($msg);
+if (!$response->is_success) {
+ die 'Could not submit tweet: ' .
+   $response->status_line . ' ' . $response->content;
+}
+my $xml = $response->decoded_content;
+my $ref = XMLin( $xml, ForceArray => 1 );
+my $twitter_message_id = $ref->{id}->[0]
+unless ( $twitter_message_id ) {
+    die 'no tweet id returned by Twitter:'.Dumper($ref);
+}
+</pre>
+</div>
+
+<div class="slide">
+<h1>Job Done</h1>
+<p><img src="pix/jobdone.jpg" alt="Job done" /></p>
+</div>
+
+<div class="slide">
+<h1>Links and Any Questions?</h1>
+<ul>
+<li><a href="http://dev.twitter.com/pages/basic_to_oauth">http://dev.twitter.com/pages/basic_to_oauth</a></li>
+<li><a href="http://search.cpan.org/perldoc?Net::Twitter::Lite">http://search.cpan.org/perldoc?Net::Twitter::Lite</a></li>
+<li><a href="http://search.cpan.org/perldoc?Net::OAuth">http://search.cpan.org/perldoc?Net::OAuth</a></li>
+<li><a href="https://dev.twitter.com/apps/new">https://dev.twitter.com/apps/new</a></li>
+<li><a href="http://oauth.net/core/1.0/">http://oauth.net/core/1.0/</a></li>
+<li><a href="http://perl.dragonstaff.co.uk">http://perl.dragonstaff.co.uk</a></li>
+</ul>
+</div>
+
+
+</div>
+
+</body>
+</html>

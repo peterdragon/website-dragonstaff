@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<title>Dragonstaff Perl Page</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="description" content="Dragonstaff IT Consultancy Perl Page" />
+		<meta name="keywords" content="Dragonstaff IT consultancy Milton Keynes Open Source Perl PHP web sites shop development management contractor" />
+		<style type="text/css">
+			/*<![CDATA[*/
+			body {
+				background-color: #fff;
+				color: #000;
+				font-size: 0.9em;
+				font-family: sans-serif,helvetica;
+				margin: 0;
+				padding: 0;
+			}
+			:link {
+				color: #c00;
+			}
+			:visited {
+				color: #c00;
+			}
+			a:hover {
+				color: #f50;
+			}
+			h1 {
+				text-align: center;
+				margin: 0;
+				padding: 0.6em 2em 0.4em;
+				background-color: #3399FF;
+				color: #ffffff;
+				font-weight: normal;
+				font-size: 1.75em;
+				border-bottom: 1px solid #000;
+			}
+			h1 strong {
+				font-weight: bold;
+			}
+			h2 {
+				font-size: 1.1em;
+				font-weight: bold;
+			}
+			hr {
+				display: none;
+			}
+			.content {
+				padding: 1em 5em;
+			}
+			.content-title, .content-middle {
+				text-align: center;
+			}
+			.content-title {
+				font-weight: bold;
+				color: #1E90FF;
+			}
+			.content-columns {
+				/* Setting relative positioning allows for 
+				absolute positioning for sub-classes */
+				position: relative;
+				padding-top: 1em;
+			}
+			.content-column-left {
+				/* Value for IE/Win; will be overwritten for other browsers */
+				width: 47%;
+				padding-right: 3%;
+				float: left;
+				padding-bottom: 2em;
+			}
+			.content-column-left hr {
+				display: none;
+			}
+			.content-column-right {
+				/* Values for IE/Win; will be overwritten for other browsers */
+				width: 47%;
+				padding-left: 3%;
+				float: left;
+				padding-bottom: 2em;
+			}
+			.content-columns>.content-column-left, .content-columns>.content-column-right {
+				/* Non-IE/Win */
+			}
+			img {
+				border: 2px solid #fff;
+				padding: 2px;
+				margin: 2px;
+			}
+			a:hover img {
+				border: 2px solid #f50;
+			}
+			/*]]>*/
+
+			#footer1 {
+				border-top: 1px dotted #AAAAAA;
+				width: 100%;
+				color: #626262;
+				font-size: 70%;
+				position: absolute;
+				bottom: 0;
+				background-color: #EEEEEE;
+				display: inline;
+			}
+			.footer {
+				border-top: 1px dotted #AAAAAA;
+				width: 100%;
+				color: #626262;
+				font-size: 70%;
+				background-color: #EEEEEE;
+			}
+
+			.dotted-line {
+				width: 100%;
+				border-top: 1px dotted #AAAAAA;
+				margin-top: 2em;
+				margin-bottom: 1em;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1>Dragonstaff Perl Page</h1>
+		<div class="content">
+
+			<div class="content-title">CPAN Modules</div>
+			<div class="content-middle">
+				<p style="horizontal-align:left">Author <a href="http://search.cpan.org/~pedwards/">PEDWARDS</a> modules 
+				   <a href="http://search.cpan.org/~pedwards/CLucene-1.00/CLucene.pm">CLucene</a>
+				|  <a href="http://search.cpan.org/perldoc?Net::SMS::BulkSMS">Net::SMS::BulkSMS</a>
+				|  <a href="http://search.cpan.org/perldoc?Authen::NIST::RBAC">Authen::NIST::RBAC</a>
+			  <br />
+				   Author <a href="http://search.cpan.org/~snafufans/">SNAFUFANS</a> modules 
+				   <a href="http://search.cpan.org/perldoc?CatalystX::ListFramework">CatalystX::ListFramework</a>
+			  <br />
+				   Author <a href="http://search.cpan.org/~oliver/">OLIVER</a> modules 
+                                   <a href="http://search.cpan.org/perldoc?Catalyst::Plugin::AutoCRUD">Catalyst::Plugin::AutoCRUD</a> with <a href="http://dragonstaff.co.uk/oliverg/">AutoCRUD demo</a>
+				</p>
+			</div>
+
+			<div class="content-title">Talks</div>
+			<div class="content-middle">
+				<p style="font-size:small"><a id="talks1" />At <a href="http://miltonkeynes.pm.org/">MiltonKeynes.pm</a> Perl Mongers</p>
+				 <p>April 2011 <b>Adding OAuth to BBC World Service Arabic Twitter Feeder</b> <a href="twitter_oauth/">S5</a></p>
+				 <p>April 2009 <b>Introduction to WxWidgets</b> <a href="mkpm_wxwidgets.pdf">PDF</a> | <a href="mkpm_wxwidgets.odp">OpenOffice</a></p>
+				 <p>January 2009 <b>Lightning talk on Exceptions</b> <a href="mkpm_exceptions.pdf">PDF</a> | <a href="mkpm_exceptions.odp">OpenOffice</a></p>
+			         <p>October 2008 <b>Role Based Access Control</b> <a href="http://docs.google.com/Presentation?id=dfvqw28g_20nvm92kf2">Google Docs</a> | <a href="rbac">HTML</a> | <a href="rbac.ppt">Powerpoint</a></p>
+			         <p>July 2008 <b>Real Life Cross-Platform Testing</b> <a href="http://docs.google.com/Presentation?id=dfvqw28g_36dppmk8g9">Google Docs</a> | <a href="mkpm3">HTML</a> | <a href="real_world_xplatform_testing.ppt">Powerpoint</a></p>
+				<p>April 2007 <b>Perl Web Frameworks</b> <a href="mkpm2">HTML</a> | <a href="desperatelyseeking.ppt">Powerpoint</a> | <a href="app.zip">app.zip</a></p>
+				<p>June 2006 <b>Perl, XS, SWIG and CLucene text search engine</b> <a href="mkpm">HTML</a> | <a href="perlCLucene.ppt">Powerpoint</a></p>
+				<p style="font-size:small"><a id="talks2" />At <a href="http://event.perlukraine.org/upw2009/">Ukrainian Perl Workshop 2009 "Perl Mova"</a></p>				
+				<p>March 2009 <b>Cross-Platform Testing</b> <a href="kiev2009_xplatform_testing.pdf">PDF</a> | <a href="kiev2009_xplatform_testing.odp">OpenOffice</a></p>
+				<p style="font-size:small"><a id="talks3" />At <a href="http://event.perlukraine.org/upw2008/">Ukrainian Perl Workshop 2008 "Perl Mova"</a></p>				
+				<p>February 2008 <b>Getting Started With ExtJS And Catalyst</b> <a href="http://docs.google.com/Present?docid=dfvqw28g_3cxrj6n6n&amp;hl=en">Google Docs</a> | <a href="catalyst_extjs.htm">HTML</a> | <a href="catalyst_extjs.ppt">Powerpoint</a> | <a target="_blank" href="http://www.flickr.com/photos/24211691@N08/sets/72157603992626603/">Photos</a></p>
+			</div>
+
+			<div class="content-title">Articles</div>
+			<div class="content-middle">
+				<p>December 2007 <b>Getting Started With ExtJS And Catalyst</b> published in <a href="http://catalyst.perl.org/calendar/2007/">Catalyst Advent Calendar 2007</a> as <a href="http://catalyst.perl.org/calendar/2007/1">Day 1</a></p>
+				<p>December 2007 <b>Using Catalyst Models Externally and Multiple Configuration Files</b> published in <a href="http://catalyst.perl.org/calendar/2007/">Catalyst Advent Calendar 2007</a> as <a href="http://catalyst.perl.org/calendar/2007/14">Day 14</a></p>
+			</div>
+
+			<div class="content-title">Code Samples</div>
+			<div class="content-middle">
+				<p><a href="om-0.2.zip">A Sample install script for an OpenInteract application on Redhat Enterprise Linux 3/4</a> [zip download]</p>
+			</div>
+
+		</div>
+		<div class="footer">
+			<div style="float: left; margin-top: 1.5em; margin-left: 1.5em">
+				&copy; Dragonstaff Limited 2008-11. All rights reserved.
+			</div>
+			<div style="float: right">
+   		 <a href="http://validator.w3.org/check?uri=referer"><img
+       		src="http://www.w3.org/Icons/valid-xhtml11"
+        		alt="Valid XHTML 1.1" height="31" width="88" /></a>
+  			</div>
+		</div>
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-2985599-4";
+urchinTracker();
+</script>
+</body>
+</html>
